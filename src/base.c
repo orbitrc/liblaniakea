@@ -1,0 +1,5 @@
+#include <laniakea/base.h>
+
+LANIAKEA_EXTERN_C_BEGIN
+
+LANIAKEA_EXTERN_C_END

@@ -1,0 +1,5 @@
+*.code-workspace
+target/
+*.o
+
+tests/test_preferences_load
