@@ -11,12 +11,12 @@ void laniakea_string_trim(char *str)
     char *end = str;
 
     // Trim leading spaces.
-    while (*start != ' ' && *start != '\n') {
+    while (*start == ' ' || *start == '\n') {
         ++start;
     }
     // Case all characters are whitespaces or new-lines.
-    if (start == NULL) {
-        str = NULL;
+    if (*start == '\0') {
+        *str = '\0';
     }
     strcpy(str, start);
 
@@ -24,7 +24,7 @@ void laniakea_string_trim(char *str)
     while (*end != ' ' && *end != '\n') {
         ++end;
     }
-    end = NULL;
+    *end = '\0';
 }
 
 laniakea_bool laniakea_string_eq(const char *str, const char *other)

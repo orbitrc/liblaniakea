@@ -15,7 +15,11 @@
     #define LANIAKEA_EXTERN_C_END
 #endif
 
+#ifdef _Bool
 #define laniakea_bool _Bool
+#else
+#define laniakea_bool bool
+#endif
 #define LANIAKEA_TRUE true
 #define LANIAKEA_FALSE false
 

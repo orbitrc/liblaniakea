@@ -7,6 +7,8 @@
 // POSIX
 #include <sys/types.h>
 
+#include <laniakea/string.h>
+
 LANIAKEA_EXTERN_C_BEGIN
 
 laniakea_preferences* laniakea_preferences_new()
@@ -38,11 +40,11 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
 
     while (read_n != -1) {
         read_n = getline(&line, &buf_n, f);
-        printf("%d\n", read_n);
         if (read_n != -1) {
-            printf("%s\n", line);
+            laniakea_string_trim(line);
         }
     }
+    free(line);
 }
 
 LANIAKEA_EXTERN_C_END
