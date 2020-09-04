@@ -27,6 +27,18 @@ void laniakea_string_trim(char *str)
     *end = '\0';
 }
 
+laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp)
+{
+    size_t cmp_len = strlen(cmp);
+    for (size_t i = 0; i < strlen(str); ++i) {
+        if (cmp[i] != str[i]) {
+            return LANIAKEA_FALSE;
+        }
+    }
+
+    return LANIAKEA_TRUE;
+}
+
 laniakea_bool laniakea_string_eq(const char *str, const char *other)
 {
     if (strcmp(str, other) == 0) {

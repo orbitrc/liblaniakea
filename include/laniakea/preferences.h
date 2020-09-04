@@ -22,6 +22,7 @@ typedef struct laniakea_preferences {
     // Keyboard.
     int16_t delay_until_repeat; // 0-10,000
     uint8_t key_repeat;         // 0-255
+
 } laniakea_preferences;
 
 

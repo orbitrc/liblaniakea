@@ -22,6 +22,8 @@ test:
 	LD_LIBRARY_PATH=target/debug tests/test_preferences_load
 	$(CC) $(CFLAGS) tests/test_map.c -Ltarget/debug -llaniakea -o tests/test_map
 	LD_LIBRARY_PATH=target/debug tests/test_map
+	$(CC) $(CFLAGS) tests/test_ini.c -Ltarget/debug -llaniakea -o tests/test_ini
+	LD_LIBRARY_PATH=target/debug tests/test_ini
 
 clean:
 	rm -rf target
