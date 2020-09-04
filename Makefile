@@ -1,7 +1,9 @@
 OBJ = src/base.o \
+	src/ini.o \
 	src/map.o \
+	src/preferences.o \
 	src/string.o \
-	src/preferences.o
+	src/vec.o
 
 CFLAGS += -I./include -Wall
 default:CFLAGS += -g
@@ -24,6 +26,8 @@ test:
 	LD_LIBRARY_PATH=target/debug tests/test_map
 	$(CC) $(CFLAGS) tests/test_ini.c -Ltarget/debug -llaniakea -o tests/test_ini
 	LD_LIBRARY_PATH=target/debug tests/test_ini
+	$(CC) $(CFLAGS) tests/test_vec.c -Ltarget/debug -llaniakea -o tests/test_vec
+	LD_LIBRARY_PATH=target/debug tests/test_vec
 
 clean:
 	rm -rf target

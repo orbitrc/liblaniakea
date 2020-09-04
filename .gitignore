@@ -5,3 +5,4 @@ target/
 tests/test_preferences_load
 tests/test_map
 tests/test_ini
+tests/test_vec

@@ -2,6 +2,7 @@
 
 /* C */
 #include <stdio.h>
+#include <string.h>
 /* POSIX */
 #include <sys/types.h>
 
@@ -60,24 +61,24 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
         const char *key, const char *value)
 {
     // Find section by name.
-    laniakea_ini_section *section = NULL;
+    laniakea_ini_section *ini_section = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
         if (laniakea_string_eq(section, ini->sections[i]->name)) {
-            section = ini->sections[i];
+            ini_section = ini->sections[i];
             break;
         }
     }
 
     // If no section, add one.
-    if (section == NULL) {
+    if (ini_section == NULL) {
         ini->sections[ini->length] = laniakea_ini_section_new(section);
         laniakea_ini_section_insert(ini->sections[ini->length],
             key, value);
         ini->length++;
     }
     // If already has section, then add values to there.
-    if (section != NULL) {
-        laniakea_ini_section_insert(section, key, value);
+    if (ini_section != NULL) {
+        laniakea_ini_section_insert(ini_section, key, value);
         ini->length++;
     }
 
