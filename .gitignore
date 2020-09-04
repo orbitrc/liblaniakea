@@ -3,3 +3,4 @@ target/
 *.o
 
 tests/test_preferences_load
+tests/test_map
