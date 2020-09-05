@@ -65,10 +65,12 @@ laniakea_string_vec* laniakea_string_split(const char *str, const char *delim)
     }
     ++end;
 
-    while (strlen(start) > delim_len || *end != '\0') {
+    while (strlen(start) >= delim_len || *end != '\0') {
         if (strncmp(end, delim, delim_len) == 0) {
-            char *buf = malloc(end - start + 1);
-            strncpy(buf, start, end - start);
+            size_t len = end - start;   // Length of splitted string.
+            char *buf = malloc(len + 1);
+            strncpy(buf, start, len);
+            buf[len] = '\0';
             laniakea_string_vec_push(split, buf);
             free(buf);
             start = end + delim_len;
