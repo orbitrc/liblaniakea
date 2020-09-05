@@ -60,14 +60,13 @@ laniakea_string_vec* laniakea_string_split(const char *str, const char *delim)
         char buf[1];
         buf[0] = '\0';
         laniakea_string_vec_push(split, buf);
-        printf("starts with delim. buf: <%s>\n", buf);
         start += delim_len;
         end = start;
     }
-    ++end;
 
-    while (strlen(start) >= delim_len || *end != '\0') {
+    while (strlen(start) > delim_len || *end != '\0') {
         if (strncmp(end, delim, delim_len) == 0) {
+            // If found delimiter.
             size_t len = end - start;   // Length of splitted string.
             char *buf = malloc(len + 1);
             strncpy(buf, start, len);
