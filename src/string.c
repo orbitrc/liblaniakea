@@ -41,6 +41,23 @@ laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp)
     return LANIAKEA_TRUE;
 }
 
+ssize_t laniakea_string_find(const char *str, const char *pattern)
+{
+    size_t pat_len = strlen(pattern);
+    char *iter = str;
+    while (*iter != '\0') {
+        if (strncmp(iter, pattern, pat_len) == 0) {
+            break;
+        }
+        ++iter;
+    }
+
+    if (*iter == '\0') {
+        return -1;
+    }
+    return iter - str;
+}
+
 laniakea_string_vec* laniakea_string_split(const char *str, const char *delim)
 {
     laniakea_string_vec *split = laniakea_string_vec_new();

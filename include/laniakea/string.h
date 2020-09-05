@@ -1,6 +1,8 @@
 #ifndef _LANIAKEA_STRING_H
 #define _LANIAKEA_STRING_H
 
+#include <sys/types.h>
+
 #include <laniakea/base.h>
 
 LANIAKEA_EXTERN_C_BEGIN
@@ -20,6 +22,15 @@ void laniakea_string_trim(char *str);
  * @return True if starts with cmp, else false.
  */
 laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp);
+
+/**
+ * Find the index of first matching pattern.
+ *
+ * @param str Source string.
+ * @param pattern String that find.
+ * @return The index of first matching. If not found pattern, returns -1.
+ */
+ssize_t laniakea_string_find(const char *str, const char *pattern);
 
 laniakea_string_vec* laniakea_string_split(const char *str, const char *delim);
 

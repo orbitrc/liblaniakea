@@ -1,8 +1,30 @@
+#include <assert.h>
+#include <stdio.h>
+
 #include <laniakea/string.h>
 #include <laniakea/vec.h>
 
+void test_find()
+{
+    const char *str1 = "Hello world!";
+    size_t index1 = laniakea_string_find(str1, "world");
+    printf("found index: %ld\n", index1);
+    printf("string: %s\n", str1 + index1);
+
+    const char *str2 = "Lorem ipsum";
+    size_t index2 = laniakea_string_find(str2, "-");
+    assert(index2 == -1);
+}
+
 int main()
 {
+    printf("test_find\n");
+    printf("=============\n");
+    test_find();
+    printf("\n");
+
+    printf("test_split\n");
+    printf("===============\n");
     const char *str1 = "Hello::world::foo::bar";
     laniakea_string_vec *split1 = laniakea_string_split(str1, "::");
     for (size_t i = 0; i < split1->length; ++i) {
@@ -10,7 +32,7 @@ int main()
     }
     laniakea_string_vec_free(split1);
 
-    printf("=======================\n");
+    printf("------------------------\n");
 
     const char delim2[2] = "/";
     const char *str2 = "aa//b/c";
@@ -20,7 +42,7 @@ int main()
     }
     laniakea_string_vec_free(split2);
 
-    printf("=======================\n");
+    printf("------------------------\n");
 
     const char *str3 = ";;three;four;;";
     laniakea_string_vec *split3 = laniakea_string_split(str3, ";");
