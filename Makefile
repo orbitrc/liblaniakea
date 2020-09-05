@@ -28,6 +28,8 @@ test:
 	LD_LIBRARY_PATH=target/debug tests/test_ini
 	$(CC) $(CFLAGS) tests/test_vec.c -Ltarget/debug -llaniakea -o tests/test_vec
 	LD_LIBRARY_PATH=target/debug tests/test_vec
+	$(CC) $(CFLAGS) tests/test_string.c -Ltarget/debug -llaniakea -o tests/test_string
+	LD_LIBRARY_PATH=target/debug tests/test_string
 
 clean:
 	rm -rf target

@@ -5,6 +5,8 @@
 
 LANIAKEA_EXTERN_C_BEGIN
 
+typedef struct laniakea_string_vec laniakea_string_vec;
+
 /**
  * Remove leading/trailing whitespaces and new-lines.
  */
@@ -18,6 +20,8 @@ void laniakea_string_trim(char *str);
  * @return True if starts with cmp, else false.
  */
 laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp);
+
+laniakea_string_vec* laniakea_string_split(const char *str, const char *delim);
 
 /**
  * Compare strings and returns LANIAKEA_TRUE if those equal.

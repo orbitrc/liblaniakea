@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <laniakea/vec.h>
+
 LANIAKEA_EXTERN_C_BEGIN
 
 void laniakea_string_trim(char *str)
@@ -37,6 +39,46 @@ laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp)
     }
 
     return LANIAKEA_TRUE;
+}
+
+laniakea_string_vec* laniakea_string_split(const char *str, const char *delim)
+{
+    laniakea_string_vec *split = laniakea_string_vec_new();
+
+    // If delimiter is larger than str, do not iterate.
+    if (strlen(str) < strlen(delim)) {
+        laniakea_string_vec_push(split, str);
+        return split;
+    }
+
+    const char *start = str;
+    const char *end = str;
+    size_t delim_len = strlen(delim);
+
+    // Starts with delimeter.
+    if (laniakea_string_starts_with(start, delim)) {
+        char buf[1];
+        buf[0] = '\0';
+        laniakea_string_vec_push(split, buf);
+        start += delim_len;
+        end = start;
+    }
+    ++end;
+
+    while (strlen(start) > delim_len || *end != '\0') {
+        if (strncmp(end, delim, delim_len) == 0) {
+            char *buf = malloc(end - start + 1);
+            strncpy(buf, start, end - start);
+            laniakea_string_vec_push(split, buf);
+            free(buf);
+            start = end + delim_len;
+            end = start;
+        } else {
+            ++end;
+        }
+    }
+
+    return split;
 }
 
 laniakea_bool laniakea_string_eq(const char *str, const char *other)
