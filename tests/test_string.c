@@ -19,6 +19,14 @@ int main()
     }
     laniakea_string_vec_free(split2);
 
-    
+    printf("=======================\n");
+
+    const char *str3 = ";;three;four;";
+    laniakea_string_vec *split3 = laniakea_string_split(str3, ";");
+    for (size_t i = 0; i < split3-> length; ++i) {
+        printf("\"%s\"\n", laniakea_string_vec_get(split3, i));
+    }
+    laniakea_string_vec_free(split3);
+
     return 0;
 }
