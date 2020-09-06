@@ -1,11 +1,13 @@
 #include <laniakea/ini.h>
 
 /* C */
+#include <errno.h>
 #include <stdio.h>
 #include <string.h>
 /* POSIX */
 #include <sys/types.h>
 
+#include <laniakea/base.h>
 #include <laniakea/string.h>
 #include <laniakea/vec.h>
 
@@ -100,14 +102,18 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
     }
 }
 
-laniakea_ini* laniakea_ini_load(const char *path)
+int laniakea_ini_load(laniakea_ini *ini, const char *path)
 {
-    laniakea_ini *ini = laniakea_ini_new();
-
     FILE *f = fopen(path, "r");
     if (f == NULL) {
-        laniakea_ini_free(ini);
-        return NULL;
+        switch (errno) {
+        case ENOENT:
+            return LANIAKEA_FILE_ERROR_NO_FILE;
+        case EACCES:
+            return LANIAKEA_FILE_ERROR_PERMISSION;
+        default:
+            return LANIAKEA_FILE_ERROR_UNKNOWN;
+        }
     }
 
     char *line;
@@ -134,7 +140,7 @@ laniakea_ini* laniakea_ini_load(const char *path)
     free(line);
     fclose(f);
 
-    return ini;
+    return LANIAKEA_FILE_ERROR_SUCCESS;
 }
 
 void laniakea_ini_free(laniakea_ini *ini)

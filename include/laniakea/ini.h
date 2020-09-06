@@ -41,7 +41,7 @@ void laniakea_ini_section_free(laniakea_ini_section *section);
 laniakea_ini* laniakea_ini_new();
 void laniakea_ini_insert(laniakea_ini *ini, const char *section,
         const char *key, const char *value);
-laniakea_ini* laniakea_ini_load(const char *path);
+int laniakea_ini_load(laniakea_ini *ini, const char *path);
 void laniakea_ini_free(laniakea_ini *ini);
 
 

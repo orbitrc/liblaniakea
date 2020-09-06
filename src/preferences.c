@@ -7,6 +7,7 @@
 // POSIX
 #include <sys/types.h>
 
+#include <laniakea/base.h>
 #include <laniakea/ini.h>
 #include <laniakea/string.h>
 
@@ -34,12 +35,15 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
         strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 1);
 
     // Load file.
-    preferences->conf = laniakea_ini_load(path);
-    if (preferences->conf == NULL) {
-        return LANIAKEA_ERROR_NO_SUCH_FILE;
+    int err = laniakea_ini_load(preferences->conf, path);
+    if (err == LANIAKEA_FILE_ERROR_NO_FILE) {
+        return err;
+    }
+    if (err != LANIAKEA_FILE_ERROR_SUCCESS) {
+        return err;
     }
 
-    return LANIAKEA_ERROR_SUCCESS;
+    return LANIAKEA_FILE_ERROR_SUCCESS;
 }
 
 LANIAKEA_EXTERN_C_END
