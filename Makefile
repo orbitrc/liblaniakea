@@ -14,6 +14,14 @@ TEST_EXEC = tests/test_preferences_load \
 CFLAGS += -I./include -Wall
 default:CFLAGS += -g
 
+TARGET_DIR = target/release
+default:TARGET_DIR = target/debug
+
+VERSION_MAJOR = 0
+VERSION_MINOR = 1
+VERSION_PATCH = 0
+SONAME = liblaniakea.so.$(VERSION_MAJOR)
+
 default: $(OBJ)
 	mkdir -p target/debug
 	$(CC) -shared $(CFLAGS) -o target/debug/liblaniakea.so $^
@@ -23,7 +31,11 @@ src/%.o: src/%.c
 
 release: $(OBJ)
 	mkdir -p target/release
-	$(CC) -shared $(CFLAGS) -o target/release/liblaniakea.so $^
+	$(CC) -shared $(CFLAGS) -Wl,-soname,$(SONAME) -o target/release/liblaniakea.so $^
+	rm -rf $(TARGET_DIR)/*.so.*
+	ln -s liblaniakea.so $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR)
+	ln -s liblaniakea.so.$(VERSION_MAJOR) $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR)
+	ln -s liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR) $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 
 tests/%: tests/%.c
 	$(CC) $(CFLAGS) $< -Ltarget/debug -llaniakea -o $@
