@@ -25,7 +25,7 @@ int main()
 
     printf("test_split\n");
     printf("===============\n");
-    const char *str1 = "Hello::world::foo::bar";
+    const char *str1 = "Hello::world::foo::bar::baz::fn";
     laniakea_string_vec *split1 = laniakea_string_split(str1, "::");
     for (size_t i = 0; i < split1->length; ++i) {
         printf("\"%s\"\n", laniakea_string_vec_get(split1, i));

@@ -82,18 +82,27 @@ laniakea_string_vec* laniakea_string_split(const char *str, const char *delim)
     }
 
     while (strlen(start) > delim_len || *end != '\0') {
-        if (strncmp(end, delim, delim_len) == 0) {
+        size_t found = laniakea_string_find(start, delim);
+        if (strncmp(start, delim, delim_len) == 0) {
+            laniakea_string_vec_push(split, "");
+            start = start + delim_len;
+            continue;
+        }
+        if (found != -1) {
             // If found delimiter.
-            size_t len = end - start;   // Length of splitted string.
+            end += found - 1;
+            size_t len = end - start + 1;   // Length of splitted string.
             char *buf = malloc(len + 1);
             strncpy(buf, start, len);
             buf[len] = '\0';
             laniakea_string_vec_push(split, buf);
             free(buf);
-            start = end + delim_len;
+            start = start + found + delim_len;
             end = start;
-        } else {
-            ++end;
+        } else if (found == -1 || *end == '\0') {
+            size_t len = end - start + 1;
+            laniakea_string_vec_push(split, start);
+            break;
         }
     }
 
