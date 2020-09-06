@@ -139,7 +139,11 @@ laniakea_ini* laniakea_ini_load(const char *path)
 
 void laniakea_ini_free(laniakea_ini *ini)
 {
+    for (size_t i = 0; i < ini->length; ++i) {
+        laniakea_ini_section_free(ini->sections[i]);
+    }
 
+    free(ini);
 }
 
 LANIAKEA_EXTERN_C_END
