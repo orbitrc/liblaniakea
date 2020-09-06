@@ -14,6 +14,8 @@ void test_replace()
     laniakea_string_map_insert(map, "two", "둘");
 
     printf("two: %s\n", laniakea_string_map_get(map, "two"));
+
+    laniakea_string_map_free(map);
 }
 
 void test_remove()
@@ -51,6 +53,12 @@ int main()
 
     const char *val = laniakea_string_map_get(map, "two");
     printf("\"two\": %s\n", val);
+
+    // Replace test.
+    laniakea_string_map_insert(map, "foo", "Hello!");
+    val = laniakea_string_map_get(map, "foo");
+    printf("\"%s\"\n", val);
+    printf("length: %ld\n", map->length);
 
     laniakea_string_map_free(map);
 

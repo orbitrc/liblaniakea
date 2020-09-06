@@ -79,19 +79,14 @@ laniakea_bool laniakea_string_map_contains(const laniakea_string_map *map,
 void laniakea_string_map_insert(laniakea_string_map *map,
         const char *key, const char *value)
 {
+    // If key already exists, replace.
     if (laniakea_string_map_contains(map, key)) {
-        laniakea_string_map_pair *pair_to_replace;
-        for (size_t i = 0; i < map->length; ++i) {
-            if (laniakea_string_eq(map->pairs[i]->key, key)) {
-                pair_to_replace = map->pairs[i];
-                break;
-            }
-        }
-        laniakea_string_map_pair_free(pair_to_replace);
-        pair_to_replace = laniakea_string_map_pair_new(key, value);
+        laniakea_string_map_remove(map, key);
+        laniakea_string_map_insert(map, key, value);
 
         return;
     }
+
     laniakea_string_map_pair *pair = laniakea_string_map_pair_new(key, value);
     map->pairs[map->length] = pair;
     map->length++;
