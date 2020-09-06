@@ -64,6 +64,8 @@ void laniakea_string_map_insert(laniakea_string_map *map,
     laniakea_string_map_pair *pair = laniakea_string_map_pair_new(key, value);
     map->pairs[map->length] = pair;
     map->length++;
+
+    // If capacity is full, re-allocate more memory.
     if (map->length == map->capacity) {
         // Re-allocate more size.
         laniakea_string_map_pair **new_pairs = malloc(
