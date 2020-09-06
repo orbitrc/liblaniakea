@@ -72,39 +72,68 @@ laniakea_string_vec* laniakea_string_split(const char *str, const char *delim)
     const char *end = str;
     size_t delim_len = strlen(delim);
 
-    // Starts with delimeter.
-    if (laniakea_string_starts_with(start, delim)) {
-        char buf[1];
-        buf[0] = '\0';
-        laniakea_string_vec_push(split, buf);
-        start += delim_len;
-        end = start;
-    }
-
-    while (strlen(start) > delim_len || *end != '\0') {
-        size_t found = laniakea_string_find(start, delim);
-        if (strncmp(start, delim, delim_len) == 0) {
+    ssize_t found = laniakea_string_find(start, delim);
+    while (found != -1) {
+        if (found == 0) {
             laniakea_string_vec_push(split, "");
-            start = start + delim_len;
-            continue;
-        }
-        if (found != -1) {
-            // If found delimiter.
-            end += found - 1;
-            size_t len = end - start + 1;   // Length of splitted string.
+            start += delim_len;
+            end = start;
+        } else if (found > 0) {
+            size_t len = found;
             char *buf = malloc(len + 1);
             strncpy(buf, start, len);
             buf[len] = '\0';
             laniakea_string_vec_push(split, buf);
             free(buf);
-            start = start + found + delim_len;
+            start += len + delim_len;
             end = start;
-        } else if (found == -1 || *end == '\0') {
-            size_t len = end - start + 1;
-            laniakea_string_vec_push(split, start);
-            break;
         }
+        found = laniakea_string_find(start, delim);
     }
+    // Remains.
+    laniakea_string_vec_push(split, start);
+
+    return split;
+}
+
+laniakea_string_vec* laniakea_string_splitn(const char *str,
+        size_t n, const char *delim)
+{
+    laniakea_string_vec *split = laniakea_string_vec_new();
+
+    // If delimiter is larger than str, do not iterate.
+    if (strlen(str) < strlen(delim)) {
+        laniakea_string_vec_push(split, str);
+        return split;
+    }
+
+    const char *start = str;
+    const char *end = str;
+    size_t delim_len = strlen(delim);
+    size_t pushed = 0;
+
+    ssize_t found = laniakea_string_find(start, delim);
+    while (found != -1 && pushed < n - 1) {
+        if (found == 0) {
+            laniakea_string_vec_push(split, "");
+            ++pushed;
+            start += delim_len;
+            end = start;
+        } else if (found > 0) {
+            size_t len = found;
+            char *buf = malloc(len + 1);
+            strncpy(buf, start, len);
+            buf[len] = '\0';
+            laniakea_string_vec_push(split, buf);
+            ++pushed;
+            free(buf);
+            start += len + delim_len;
+            end = start;
+        }
+        found = laniakea_string_find(start, delim);
+    }
+    // Remains.
+    laniakea_string_vec_push(split, start);
 
     return split;
 }

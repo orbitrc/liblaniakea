@@ -16,6 +16,33 @@ void test_find()
     assert(index2 == -1);
 }
 
+void test_splitn()
+{
+    const char *str1 = "My name is Yujeonja";
+    laniakea_string_vec *split1 = laniakea_string_splitn(str1, 3, " ");
+    for (size_t i = 0; i < split1->length; ++i) {
+        printf("\"%s\"\n", laniakea_string_vec_get(split1, i));
+    }
+    laniakea_string_vec_free(split1);
+    printf("-------------------------------\n");
+
+    const char *str2 = "zero-length-split";
+    laniakea_string_vec *split2 = laniakea_string_splitn(str2, 0, " ");
+    for (size_t i = 0; i < split2->length; ++i) {
+        printf("\"%s\"\n", laniakea_string_vec_get(split2, i));
+    }
+    laniakea_string_vec_free(split2);
+    printf("-------------------------------\n");
+
+    const char *str3 = "";
+    laniakea_string_vec *split3 = laniakea_string_splitn(str3, 1, "X");
+    for (size_t i = 0; i < split3->length; ++i) {
+        printf("\"%s\"\n", laniakea_string_vec_get(split3, i));
+    }
+    laniakea_string_vec_free(split3);
+    printf("-------------------------------\n");
+}
+
 int main()
 {
     printf("test_find\n");
@@ -50,6 +77,13 @@ int main()
         printf("\"%s\"\n", laniakea_string_vec_get(split3, i));
     }
     laniakea_string_vec_free(split3);
+
+    printf("\n");
+
+    printf("test_splitn\n");
+    printf("=================\n");
+    test_splitn();
+    printf("\n");
 
     return 0;
 }

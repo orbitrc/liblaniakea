@@ -34,6 +34,9 @@ ssize_t laniakea_string_find(const char *str, const char *pattern);
 
 laniakea_string_vec* laniakea_string_split(const char *str, const char *delim);
 
+laniakea_string_vec* laniakea_string_splitn(const char *str,
+        size_t n, const char *delim);
+
 /**
  * Compare strings and returns LANIAKEA_TRUE if those equal.
  */
