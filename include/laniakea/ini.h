@@ -32,11 +32,26 @@ typedef struct laniakea_ini {
 /* laniakea_ini_section methods */
 /*==============================*/
 
+/**
+ * @brief Create new ini section object.
+ *
+ * @param name The section name which is bracket represented in ini file.
+ * @return Newly allocated ini section object.
+ */
 laniakea_ini_section* laniakea_ini_section_new(const char *name);
+
+/**
+ * @brief Insert key/value pair to the section.
+ */
 void laniakea_ini_section_insert(laniakea_ini_section *section,
         const char *key, const char *value);
+
+/**
+ * @brief Get the value from key in the section.
+ */
 const char* laniakea_ini_section_get(const laniakea_ini_section *section,
         const char *key);
+
 void laniakea_ini_section_free(laniakea_ini_section *section);
 
 

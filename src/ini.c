@@ -112,13 +112,21 @@ const char* laniakea_ini_get_string(const laniakea_ini *ini,
             break;
         }
     }
+    // No section error.
     if (sec == NULL && e != NULL) {
         *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+        return NULL;
     }
 
+    // No key error.
     const char *val = laniakea_ini_section_get(sec, key);
     if (val == NULL && e != NULL) {
         *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+    }
+
+    // Success.
+    if (e != NULL) {
+        *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
     }
 
     return val;
