@@ -17,7 +17,7 @@ laniakea_string_vec* laniakea_string_vec_new()
 
 void laniakea_string_vec_push(laniakea_string_vec *vec, const char *str)
 {
-    vec->strings[vec->length] = malloc(sizeof(char) * strlen(str));
+    vec->strings[vec->length] = malloc(sizeof(char) * strlen(str) + 1);
     strcpy(vec->strings[vec->length], str);
     vec->length++;
 
@@ -25,11 +25,13 @@ void laniakea_string_vec_push(laniakea_string_vec *vec, const char *str)
         char **new_strings = malloc(
             sizeof(char*)
                 *
-            vec->capacity + LANIAKEA_VEC_CAPACITY_MULTIPLE
+            (vec->capacity + LANIAKEA_VEC_CAPACITY_MULTIPLE)
         );
 
         for (size_t i = 0; i < vec->length; ++i) {
-            new_strings[i] = vec->strings[i];
+            new_strings[i] = malloc(strlen(vec->strings[i]) + 1);
+            strcpy(new_strings[i], vec->strings[i]);
+            free(vec->strings[i]);
         }
         free(vec->strings);
         vec->strings = new_strings;
