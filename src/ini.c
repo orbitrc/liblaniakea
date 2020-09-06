@@ -7,6 +7,7 @@
 #include <sys/types.h>
 
 #include <laniakea/string.h>
+#include <laniakea/vec.h>
 
 LANIAKEA_EXTERN_C_BEGIN
 
@@ -104,6 +105,10 @@ laniakea_ini* laniakea_ini_load(const char *path)
     laniakea_ini *ini = laniakea_ini_new();
 
     FILE *f = fopen(path, "r");
+    if (f == NULL) {
+        laniakea_ini_free(ini);
+        return NULL;
+    }
 
     char *line;
     size_t buf_n = 0;
@@ -117,11 +122,19 @@ laniakea_ini* laniakea_ini_load(const char *path)
             if (laniakea_string_starts_with(line, "[")) {
                 section = line;
             } else {
-                // laniakea_ini_insert(ini, section, key, value);
+                laniakea_string_vec *kv;
+                kv = laniakea_string_splitn(line, 2, "=");
+                laniakea_ini_insert(ini, section,
+                    laniakea_string_vec_get(kv, 0),
+                    laniakea_string_vec_get(kv, 1));
+                laniakea_string_vec_free(kv);
             }
         }
     }
     free(line);
+    fclose(f);
+
+    return ini;
 }
 
 void laniakea_ini_free(laniakea_ini *ini)

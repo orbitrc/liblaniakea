@@ -12,17 +12,22 @@ LANIAKEA_EXTERN_C_BEGIN
 
 #define LANIAKEA_ERROR_SUCCESS      0
 #define LANIAKEA_ERROR_NO_SUCH_FILE 1
+#define LANIAKEA_ERROR_PERMISSION_DENIED    2
+#define LANIAKEA_ERROR_NO_SPACE     3
+#define LANIAKEA_ERROR_UNKNOWN      4
+
+typedef struct laniakea_ini laniakea_ini;
 
 typedef struct laniakea_preferences {
-    // Display.
-    void *scales;
-    // Desktop.
-    char *wallpaper;
-    size_t number_of_desktops;
-    // Keyboard.
-    int16_t delay_until_repeat; // 0-10,000
-    uint8_t key_repeat;         // 0-255
-
+    // - Display.
+    // void *scales;
+    // - Desktop.
+    // char *wallpaper;
+    // size_t number_of_desktops;
+    // - Keyboard.
+    // int16_t delay_until_repeat; // 0-10,000
+    // uint8_t key_repeat;         // 0-255
+    laniakea_ini *conf;
 } laniakea_preferences;
 
 

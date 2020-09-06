@@ -7,6 +7,7 @@
 // POSIX
 #include <sys/types.h>
 
+#include <laniakea/ini.h>
 #include <laniakea/string.h>
 
 LANIAKEA_EXTERN_C_BEGIN
@@ -14,6 +15,8 @@ LANIAKEA_EXTERN_C_BEGIN
 laniakea_preferences* laniakea_preferences_new()
 {
     laniakea_preferences *preferences = malloc(sizeof(laniakea_preferences));
+
+    preferences->conf = NULL;
 
     return preferences;
 }
@@ -30,21 +33,13 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
         LANIAKEA_PREFERENCES_CONFIG_PATH,
         strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 1);
 
-    // Open file.
-    FILE *f = fopen(path, "r");
-    free(path);
-
-    char *line;
-    size_t buf_n = 0;
-    ssize_t read_n = 0;
-
-    while (read_n != -1) {
-        read_n = getline(&line, &buf_n, f);
-        if (read_n != -1) {
-            laniakea_string_trim(line);
-        }
+    // Load file.
+    preferences->conf = laniakea_ini_load(path);
+    if (preferences->conf == NULL) {
+        return LANIAKEA_ERROR_NO_SUCH_FILE;
     }
-    free(line);
+
+    return LANIAKEA_ERROR_SUCCESS;
 }
 
 LANIAKEA_EXTERN_C_END
