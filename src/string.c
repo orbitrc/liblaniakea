@@ -44,7 +44,7 @@ laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp)
 ssize_t laniakea_string_find(const char *str, const char *pattern)
 {
     size_t pat_len = strlen(pattern);
-    char *iter = str;
+    const char *iter = str;
     while (*iter != '\0') {
         if (strncmp(iter, pattern, pat_len) == 0) {
             break;

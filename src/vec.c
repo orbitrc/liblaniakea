@@ -1,5 +1,7 @@
 #include <laniakea/vec.h>
 
+#include <string.h>
+
 LANIAKEA_EXTERN_C_BEGIN
 
 laniakea_string_vec* laniakea_string_vec_new()

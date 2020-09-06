@@ -12,6 +12,7 @@ int main()
     laniakea_string_vec_push(vec, "!");
     laniakea_string_vec_push(vec, "foo");
     laniakea_string_vec_push(vec, "bar");
+    laniakea_string_vec_push(vec, "baz");
     printf("vec length: %ld\n", vec->length);
 
     for (size_t i = 0; i < vec->length; ++i) {
