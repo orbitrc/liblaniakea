@@ -5,6 +5,12 @@ OBJ = src/base.o \
 	src/string.o \
 	src/vec.o
 
+TEST_EXEC = tests/test_preferences_load \
+	tests/test_map \
+	tests/test_ini \
+	tests/test_vec \
+	tests/test_string
+
 CFLAGS += -I./include -Wall
 default:CFLAGS += -g
 
@@ -19,16 +25,14 @@ release: $(OBJ)
 	mkdir -p target/release
 	$(CC) -shared $(CFLAGS) -o target/release/liblaniakea.so $^
 
-test:
-	$(CC) $(CFLAGS) tests/test_preferences_load.c -Ltarget/debug -llaniakea -o tests/test_preferences_load
+tests/%: tests/%.c
+	$(CC) $(CFLAGS) $< -Ltarget/debug -llaniakea -o $@
+
+test: $(TEST_EXEC)
 	LD_LIBRARY_PATH=target/debug tests/test_preferences_load
-	$(CC) $(CFLAGS) tests/test_map.c -Ltarget/debug -llaniakea -o tests/test_map
 	LD_LIBRARY_PATH=target/debug tests/test_map
-	$(CC) $(CFLAGS) tests/test_ini.c -Ltarget/debug -llaniakea -o tests/test_ini
 	LD_LIBRARY_PATH=target/debug tests/test_ini
-	$(CC) $(CFLAGS) tests/test_vec.c -Ltarget/debug -llaniakea -o tests/test_vec
 	LD_LIBRARY_PATH=target/debug tests/test_vec
-	$(CC) $(CFLAGS) tests/test_string.c -Ltarget/debug -llaniakea -o tests/test_string
 	LD_LIBRARY_PATH=target/debug tests/test_string
 
 clean:
