@@ -10,6 +10,8 @@ void test_replace()
     laniakea_string_map_insert(map, "one", "하나");
     laniakea_string_map_insert(map, "two", "두울");
     laniakea_string_map_insert(map, "three", "셋");
+    laniakea_string_map_insert(map, "four", "넷");
+    laniakea_string_map_insert(map, "five", "다섯");
 
     laniakea_string_map_insert(map, "two", "둘");
 
@@ -25,16 +27,17 @@ void test_remove()
     laniakea_string_map_insert(map, "1", "foo");
     laniakea_string_map_insert(map, "2", "bar");
     laniakea_string_map_insert(map, "3", "baz");
+    laniakea_string_map_insert(map, "4", "qux");
 
     // Remove.
     laniakea_string_map_remove(map, "2");
 
-    laniakea_string_map_insert(map, "4", "barr");
+    laniakea_string_map_insert(map, "5", "barr");
 
     for (size_t i = 0; i < map->length; ++i) {
         printf("%s: %s\n", map->pairs[i]->key, map->pairs[i]->value);
     }
-    assert(map->length == 3);
+    assert(map->length == 4);
 
     laniakea_string_map_free(map);
 }

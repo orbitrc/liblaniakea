@@ -97,7 +97,7 @@ void laniakea_string_map_insert(laniakea_string_map *map,
         laniakea_string_map_pair **new_pairs = malloc(
             sizeof(laniakea_string_map_pair*)
                 *
-            map->capacity + LANIAKEA_MAP_CAPACITY_MULTIPLE
+            (map->capacity + LANIAKEA_MAP_CAPACITY_MULTIPLE)
         );
         // Copy pairs to new memory space.
         for (size_t i = 0; i < map->length; ++i) {
@@ -108,7 +108,8 @@ void laniakea_string_map_insert(laniakea_string_map *map,
         for (size_t i = 0; i < map->length; ++i) {
             laniakea_string_map_pair_free(map->pairs[i]);
         }
-        // Swap old pairs and new pairs.
+        free(map->pairs);
+        // Replace old pairs to new pairs.
         map->pairs = new_pairs;
         map->capacity += LANIAKEA_MAP_CAPACITY_MULTIPLE;
     }
