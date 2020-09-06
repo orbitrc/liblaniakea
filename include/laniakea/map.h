@@ -1,9 +1,9 @@
 #ifndef _LANIAKEA_MAP_H
 #define _LANIAKEA_MAP_H
 
-#include <laniakea/base.h>
-
 #include <stdlib.h>
+
+#include <laniakea/base.h>
 
 #define LANIAKEA_MAP_CAPACITY_MULTIPLE 4
 
@@ -55,10 +55,20 @@ void laniakea_string_map_pair_free(laniakea_string_map_pair *pair);
 laniakea_string_map* laniakea_string_map_new();
 
 /**
+ * @brief Check if key is in the map.
+ *
+ * @return Boolean.
+ */
+laniakea_bool laniakea_string_map_contains(const laniakea_string_map *map,
+        const char *key);
+
+/**
  * @brief Insert value with key to the map.
  *
  * If the length of key/value pair is equal to capacity after insert,
  * The capacity is automatically grown.
+ * When the key is already exists, then old pair will be free and new pair is
+ * created and inserted.
  *
  * @param map Map to insert.
  * @param key The key.
@@ -77,6 +87,11 @@ void laniakea_string_map_insert(laniakea_string_map *map,
  *         NULL.
  */
 const char* laniakea_string_map_get(laniakea_string_map *map, const char *key);
+
+/**
+ * @brief Remove the key from the map.
+ */
+void laniakea_string_map_remove(laniakea_string_map *map, const char *key);
 
 /**
  * @brief Free the string map.

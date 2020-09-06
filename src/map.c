@@ -2,6 +2,7 @@
 
 #include <string.h>
 
+#include <laniakea/base.h>
 #include <laniakea/string.h>
 
 LANIAKEA_EXTERN_C_BEGIN
@@ -20,11 +21,16 @@ laniakea_string_map_pair* laniakea_string_map_pair_new(const char *key,
     pair->key = NULL;
     pair->value = NULL;
 
-    pair->key = malloc(sizeof(char) * strlen(key) + 1);
-    pair->value = malloc(sizeof(char) * strlen(value) + 1);
+    size_t key_len = strlen(key);
+    size_t value_len = strlen(value);
 
-    strncpy(pair->key, key, strlen(key));
-    strncpy(pair->value, value, strlen(value));
+    pair->key = malloc(key_len + 1);
+    pair->value = malloc(value_len + 1);
+
+    strncpy(pair->key, key, key_len);
+    pair->key[key_len] = '\0';
+    strncpy(pair->value, value, value_len);
+    pair->value[value_len] = '\0';
 
     return pair;
 }
@@ -58,9 +64,34 @@ laniakea_string_map* laniakea_string_map_new()
     return map;
 }
 
+laniakea_bool laniakea_string_map_contains(const laniakea_string_map *map,
+        const char *key)
+{
+    for (size_t i = 0; i < map->length; ++i) {
+        if (laniakea_string_eq(map->pairs[i]->key, key)) {
+            return LANIAKEA_TRUE;
+        }
+    }
+
+    return LANIAKEA_FALSE;
+}
+
 void laniakea_string_map_insert(laniakea_string_map *map,
         const char *key, const char *value)
 {
+    if (laniakea_string_map_contains(map, key)) {
+        laniakea_string_map_pair *pair_to_replace;
+        for (size_t i = 0; i < map->length; ++i) {
+            if (laniakea_string_eq(map->pairs[i]->key, key)) {
+                pair_to_replace = map->pairs[i];
+                break;
+            }
+        }
+        laniakea_string_map_pair_free(pair_to_replace);
+        pair_to_replace = laniakea_string_map_pair_new(key, value);
+
+        return;
+    }
     laniakea_string_map_pair *pair = laniakea_string_map_pair_new(key, value);
     map->pairs[map->length] = pair;
     map->length++;
@@ -97,6 +128,31 @@ const char* laniakea_string_map_get(laniakea_string_map *map, const char *key)
     }
 
     return NULL;
+}
+
+void laniakea_string_map_remove(laniakea_string_map *map, const char *key)
+{
+    laniakea_string_map_pair *pair = NULL;
+    size_t pair_idx = 0;
+    // Find pair to remove by key.
+    for (size_t i = 0; i < map->length; ++i) {
+        if (laniakea_string_eq(map->pairs[i]->key, key)) {
+            pair = map->pairs[i];
+            pair_idx = i;
+        }
+    }
+    // If not found, do nothing.
+    if (pair == NULL) {
+        return;
+    }
+
+    laniakea_string_map_pair_free(pair);
+    // Pull pairs pointers to freed position.
+    for (size_t i = pair_idx; i < map->length - 1; ++i) {
+        map->pairs[i] = map->pairs[i + 1];
+    }
+    map->pairs[map->length] = NULL;
+    map->length -= 1;
 }
 
 void laniakea_string_map_free(laniakea_string_map *map)
