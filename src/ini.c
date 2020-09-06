@@ -102,6 +102,28 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
     }
 }
 
+const char* laniakea_ini_get_string(const laniakea_ini *ini,
+        const char *section, const char *key, int *e)
+{
+    const laniakea_ini_section *sec = NULL;
+    for (size_t i = 0; i < ini->length; ++i) {
+        if (laniakea_string_eq(ini->sections[i]->name, section)) {
+            sec = ini->sections[i];
+            break;
+        }
+    }
+    if (sec == NULL && e != NULL) {
+        *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+    }
+
+    const char *val = laniakea_ini_section_get(sec, key);
+    if (val == NULL && e != NULL) {
+        *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+    }
+
+    return val;
+}
+
 int laniakea_ini_load(laniakea_ini *ini, const char *path)
 {
     FILE *f = fopen(path, "r");
