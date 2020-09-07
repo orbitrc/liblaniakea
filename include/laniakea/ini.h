@@ -103,8 +103,20 @@ const char* laniakea_ini_get_string(const laniakea_ini *ini,
 int32_t laniakea_ini_get_i32(const laniakea_ini *ini, const char *section,
         const char *key, int *e);
 
+/**
+ * @brief Get value by key from the ini as 32bit unsigned integer type.
+ *
+ * @param ini The ini object.
+ * @param section The section.
+ * @param key The key for get value.
+ * @param e Pointer to recieve error code.
+ * @return If e is set to LANIAKEA_INI_GET_ERROR_SUCCESS, the return value is
+ *         integer converted value for key.
+ *         If e is set to error, the return value is undefined.
+ */
 uint32_t laniakea_ini_get_u32(const laniakea_ini *ini, const char *section,
         const char *key, int *e);
+
 
 laniakea_bool laniakea_ini_get_bool(const laniakea_ini *ini,
         const char *section, const char *key, int *e);
