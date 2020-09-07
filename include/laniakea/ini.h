@@ -133,6 +133,8 @@ laniakea_bool laniakea_ini_get_bool(const laniakea_ini *ini,
 
 int laniakea_ini_load(laniakea_ini *ini, const char *path);
 
+int laniakea_ini_save(laniakea_ini *ini, const char *path);
+
 void laniakea_ini_free(laniakea_ini *ini);
 
 

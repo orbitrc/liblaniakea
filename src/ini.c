@@ -334,6 +334,38 @@ int laniakea_ini_load(laniakea_ini *ini, const char *path)
     return LANIAKEA_FILE_ERROR_SUCCESS;
 }
 
+int laniakea_ini_save(laniakea_ini *ini, const char *path)
+{
+    FILE *f = fopen(path, "w");
+    if (f == NULL) {
+        switch (errno) {
+        case ENOENT:
+            return LANIAKEA_FILE_ERROR_NO_DIRECTORY;
+        case EACCES:
+            return LANIAKEA_FILE_ERROR_PERMISSION;
+        default:
+            return LANIAKEA_FILE_ERROR_UNKNOWN;
+        }
+    }
+
+    for (size_t i = 0; i < ini->length; ++i) {
+        // Write section name.
+        fprintf(f, "[%s]\n", ini->sections[i]->name);
+        for (size_t j = 0; j < ini->sections[i]->map->length; ++j) {
+            // Write key=value pairs.
+            fprintf(f, "%s=%s\n",
+                ini->sections[i]->map->pairs[j]->key,
+                ini->sections[i]->map->pairs[j]->value
+            );
+        }
+        fprintf(f, "\n");
+    }
+
+    fclose(f);
+
+    return LANIAKEA_FILE_ERROR_SUCCESS;
+}
+
 void laniakea_ini_free(laniakea_ini *ini)
 {
     for (size_t i = 0; i < ini->length; ++i) {

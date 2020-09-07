@@ -53,6 +53,17 @@ int main()
         return 1;
     }
 
+    //=================
+    // Test save
+    //=================
+    printf("test save\n");
+    printf("=============\n");
+    err = laniakea_ini_save(ini, "tests/save_test.ini");
+    if (err != LANIAKEA_FILE_ERROR_SUCCESS) {
+        fprintf(stderr, "Failed to save ini file.\n");
+        return 1;
+    }
+
     // Free.
     laniakea_ini_free(ini);
 
