@@ -2,6 +2,16 @@
 
 #include <laniakea/ini.h>
 
+void test_section_insert()
+{
+    laniakea_ini_section *sec = laniakea_ini_section_new("Section 1");
+
+    laniakea_ini_section_insert(sec, "key1", "value1");
+    laniakea_ini_section_insert(sec, "key2", "value2");
+
+    laniakea_ini_section_free(sec);
+}
+
 void test_insert()
 {
     laniakea_ini *ini = laniakea_ini_new();
@@ -15,6 +25,14 @@ void test_insert()
 
 int main()
 {
+    //======================
+    // Test section insert
+    //======================
+    printf("test section insert.\n");
+    printf("=====================\n");
+    test_section_insert();
+    printf("\n");
+
     //================
     // Test insert
     //================

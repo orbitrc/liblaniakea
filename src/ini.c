@@ -19,7 +19,7 @@ laniakea_ini_section* laniakea_ini_section_new(const char *name)
 {
     laniakea_ini_section *section = malloc(sizeof(laniakea_ini_section));
 
-    section->name = malloc(sizeof(char) * strlen(name) + 1);
+    section->name = malloc(strlen(name) + 1);
     strcpy(section->name, name);
     section->map = laniakea_string_map_new();
 
@@ -84,7 +84,6 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
     // If already has section, then add values to there.
     if (ini_section != NULL) {
         laniakea_ini_section_insert(ini_section, key, value);
-        ini->length++;
     }
 
     // If capacity is full, re-allocate memory.
@@ -92,7 +91,7 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
         laniakea_ini_section **new_sections = malloc(
             sizeof(laniakea_ini_section*)
                 *
-            ini->capacity + LANIAKEA_INI_CAPACITY_MULTIPLE
+            (ini->capacity + LANIAKEA_INI_CAPACITY_MULTIPLE)
         );
         ini->capacity += LANIAKEA_INI_CAPACITY_MULTIPLE;
         for (size_t i = 0; i < ini->length; ++i) {
