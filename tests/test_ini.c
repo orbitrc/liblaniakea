@@ -44,6 +44,8 @@ int main()
     //================
     // Test load
     //================
+    printf("test load\n");
+    printf("==============\n");
     laniakea_ini *ini = laniakea_ini_new();
     int err = laniakea_ini_load(ini, "tests/test.ini");
     if (err != LANIAKEA_FILE_ERROR_SUCCESS) {
