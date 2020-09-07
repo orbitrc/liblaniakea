@@ -229,6 +229,53 @@ uint32_t laniakea_ini_get_u32(const laniakea_ini *ini, const char *section,
     return ret;
 }
 
+laniakea_bool laniakea_ini_get_bool(const laniakea_ini *ini,
+        const char *section, const char *key, int *e)
+{
+    const laniakea_ini_section *sec = NULL;
+    for (size_t i = 0; i < ini->length; ++i) {
+        if (laniakea_string_eq(ini->sections[i]->name, section)) {
+            sec = ini->sections[i];
+            break;
+        }
+    }
+    // No section error.
+    if (sec == NULL) {
+        if (e != NULL) {
+            *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+        }
+        return 0;
+    }
+
+    // No key error.
+    const char *val = laniakea_ini_section_get(sec, key);
+    if (val == NULL) {
+        if (e != NULL) {
+            *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+        }
+        return 0;
+    }
+
+    if (laniakea_string_eq(val, "true")) {
+        if (e != NULL) {
+            *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+        }
+        return LANIAKEA_TRUE;
+    }
+    if (laniakea_string_eq(val, "false")) {
+        if (e != NULL) {
+            *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+        }
+        return LANIAKEA_FALSE;
+    }
+
+    // Type not match error.
+    if (e != NULL) {
+        *e = LANIAKEA_INI_GET_ERROR_TYPE_NOT_MATCH;
+    }
+    return LANIAKEA_FALSE;
+}
+
 int laniakea_ini_load(laniakea_ini *ini, const char *path)
 {
     FILE *f = fopen(path, "r");
@@ -252,8 +299,11 @@ int laniakea_ini_load(laniakea_ini *ini, const char *path)
         read_n = getline(&line, &buf_n, f);
         if (read_n != -1) {
             laniakea_string_trim(line);
+            printf("line: %s\n", line);
             if (laniakea_string_starts_with(line, "[")) {
                 section = line;
+            } else if (laniakea_string_eq(line, "")) {
+                continue;
             } else {
                 laniakea_string_vec *kv;
                 kv = laniakea_string_splitn(line, 2, "=");

@@ -117,10 +117,22 @@ int32_t laniakea_ini_get_i32(const laniakea_ini *ini, const char *section,
 uint32_t laniakea_ini_get_u32(const laniakea_ini *ini, const char *section,
         const char *key, int *e);
 
-
+/**
+ * @brief Get value by key from the ini as boolean type.
+ *
+ * Boolean type is "true" for true, "false" for false, and case sensitive.
+ *
+ * @param ini The ini object.
+ * @param section The section.
+ * @param key The key for get value.
+ * @param e Pointer to recieve error code.
+ * @return LANIAKEA_TRUE or LANIAKEA_FALSE.
+ */
 laniakea_bool laniakea_ini_get_bool(const laniakea_ini *ini,
         const char *section, const char *key, int *e);
+
 int laniakea_ini_load(laniakea_ini *ini, const char *path);
+
 void laniakea_ini_free(laniakea_ini *ini);
 
 

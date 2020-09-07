@@ -42,10 +42,10 @@ tests/%: tests/%.c
 
 test: $(TEST_EXEC)
 	LD_LIBRARY_PATH=target/debug tests/test_preferences_load
+	LD_LIBRARY_PATH=target/debug tests/test_string
+	LD_LIBRARY_PATH=target/debug tests/test_vec
 	LD_LIBRARY_PATH=target/debug tests/test_map
 	LD_LIBRARY_PATH=target/debug tests/test_ini
-	LD_LIBRARY_PATH=target/debug tests/test_vec
-	LD_LIBRARY_PATH=target/debug tests/test_string
 
 clean:
 	rm -rf target
