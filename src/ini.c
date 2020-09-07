@@ -302,6 +302,8 @@ int laniakea_ini_load(laniakea_ini *ini, const char *path)
                 if (section != NULL) {
                     free(section);
                 }
+                // Strip [, ].
+                // TODO: Strip.
                 section = malloc(strlen(line));
                 strcpy(section, line);
             } else if (laniakea_string_eq(line, "")) {

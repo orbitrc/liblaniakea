@@ -18,10 +18,19 @@ void laniakea_string_trim(char *str);
  * Check if the string is starts with given string part.
  *
  * @param str String that check.
- * @param str String part that check if starts with.
+ * @param cmp String part that check if starts with.
  * @return True if starts with cmp, else false.
  */
 laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp);
+
+/**
+ * @brief Check if the string is ends with given string part.
+ *
+ * @param str String that check.
+ * @param cmp String part that check if ends with.
+ * @return True if ends with cmp, else false.
+ */
+laniakea_bool laniakea_string_ends_with(const char *str, const char *cmp);
 
 /**
  * Find the index of first matching pattern.
@@ -36,6 +45,16 @@ laniakea_string_vec* laniakea_string_split(const char *str, const char *delim);
 
 laniakea_string_vec* laniakea_string_splitn(const char *str,
         size_t n, const char *delim);
+
+/**
+ * @brief Remove given prefix from the string.
+ */
+void laniakea_string_strip_prefix(char *str, const char *prefix);
+
+/**
+ * @brief Remove given suffix from the string.
+ */
+void laniakea_string_strip_suffix(char *str, const char *suffix);
 
 /**
  * Compare strings and returns LANIAKEA_TRUE if those equal.

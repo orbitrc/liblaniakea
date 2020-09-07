@@ -54,6 +54,18 @@ void test_trim()
     assert(laniakea_string_eq(str2, "[Item 42]"));
 }
 
+void test_strip()
+{
+    char str[32] = "[Section name]";
+    // Strip prefix.
+    laniakea_string_strip_prefix(str, "[");
+    printf("stripped: %s\n", str);
+
+    // Strip suffix.
+    laniakea_string_strip_suffix(str, "]");
+    printf("stripped: %s\n", str);
+}
+
 int main()
 {
     printf("test_find\n");
@@ -99,6 +111,16 @@ int main()
     printf("test_trim\n");
     printf("==============\n");
     test_trim();
+    printf("\n");
+
+    printf("test ends_with\n");
+    printf("=================\n");
+    assert(laniakea_string_ends_with("Foo bar", " bar"));
+    printf("\n");
+
+    printf("test_strip\n");
+    printf("==============\n");
+    test_strip();
     printf("\n");
 
     return 0;

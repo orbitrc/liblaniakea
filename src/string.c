@@ -43,6 +43,22 @@ laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp)
     return LANIAKEA_TRUE;
 }
 
+laniakea_bool laniakea_string_ends_with(const char *str, const char *cmp)
+{
+    size_t cmp_len = strlen(cmp);
+    size_t str_i = strlen(str) - 1;
+    size_t cmp_i = strlen(cmp) - 1;
+    while (cmp_i > cmp_len) {
+        if (cmp[cmp_i] != str[str_i]) {
+            return LANIAKEA_FALSE;
+        }
+        --str_i;
+        --cmp_i;
+    }
+
+    return LANIAKEA_TRUE;
+}
+
 ssize_t laniakea_string_find(const char *str, const char *pattern)
 {
     size_t pat_len = strlen(pattern);
@@ -132,6 +148,23 @@ laniakea_string_vec* laniakea_string_splitn(const char *str,
     laniakea_string_vec_push(split, start);
 
     return split;
+}
+
+void laniakea_string_strip_prefix(char *str, const char *prefix)
+{
+    if (laniakea_string_starts_with(str, prefix)) {
+        size_t len = strlen(str) - strlen(prefix);
+        strncpy(str, str + strlen(prefix), len);
+        str[len] = '\0';
+    }
+}
+
+void laniakea_string_strip_suffix(char *str, const char *suffix)
+{
+    if (laniakea_string_ends_with(str, suffix)) {
+        size_t len = strlen(str) - strlen(suffix);
+        str[len] = '\0';
+    }
 }
 
 laniakea_bool laniakea_string_eq(const char *str, const char *other)
