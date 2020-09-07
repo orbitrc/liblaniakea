@@ -16,6 +16,7 @@ default:CFLAGS += -g
 
 TARGET_DIR = target/release
 default:TARGET_DIR = target/debug
+test:TARGET_DIR = target/debug
 
 VERSION_MAJOR = 0
 VERSION_MINOR = 1
@@ -41,11 +42,16 @@ tests/%: tests/%.c
 	$(CC) $(CFLAGS) $< -Ltarget/debug -llaniakea -o $@
 
 test: $(TEST_EXEC)
-	LD_LIBRARY_PATH=target/debug tests/test_preferences_load
-	LD_LIBRARY_PATH=target/debug tests/test_string
-	LD_LIBRARY_PATH=target/debug tests/test_vec
-	LD_LIBRARY_PATH=target/debug tests/test_map
-	LD_LIBRARY_PATH=target/debug tests/test_ini
+	echo -e "\t\e[1m\e[32m[test_preferences_load]\e[0m"
+	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_preferences_load
+	echo -e "\t\e[1m\e[32m[test_string]\e[0m"
+	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_string
+	echo -e "\t\e[1m\e[32m[test_vec]\e[0m"
+	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_vec
+	echo -e "\t\e[1m\e[32m[test_map]\e[0m"
+	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_map
+	echo -e "\t\e[1m\e[32m[test_ini]\e[0m"
+	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_ini
 
 clean:
 	rm -rf target
