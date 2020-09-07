@@ -11,6 +11,7 @@ void laniakea_string_trim(char *str)
 {
     char *start = str;
     char *end = str;
+    end += strlen(str) - 1;
 
     // Trim leading spaces.
     while (*start == ' ' || *start == '\n') {
@@ -23,9 +24,10 @@ void laniakea_string_trim(char *str)
     strcpy(str, start);
 
     // Trim trailing spaces.
-    while (*end != ' ' && *end != '\n') {
-        ++end;
+    while (*end == ' ' || *end == '\n') {
+        --end;
     }
+    end++;
     *end = '\0';
 }
 
