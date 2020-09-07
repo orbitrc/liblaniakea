@@ -2,7 +2,9 @@
 
 /* C */
 #include <errno.h>
+#include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 /* POSIX */
 #include <sys/types.h>
@@ -130,6 +132,53 @@ const char* laniakea_ini_get_string(const laniakea_ini *ini,
     }
 
     return val;
+}
+
+int32_t laniakea_ini_get_i32(const laniakea_ini *ini, const char *section,
+        const char *key, int *e)
+{
+    const laniakea_ini_section *sec = NULL;
+    for (size_t i = 0; i < ini->length; ++i) {
+        if (laniakea_string_eq(ini->sections[i]->name, section)) {
+            sec = ini->sections[i];
+            break;
+        }
+    }
+    // No section error.
+    if (sec == NULL) {
+        if (e != NULL) {
+            *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+        }
+        return 0;
+    }
+
+    // No key error.
+    const char *val = laniakea_ini_section_get(sec, key);
+    if (val == NULL) {
+        if (e != NULL) {
+            *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+        }
+        return 0;
+    }
+
+    // Type not match error.
+    // TODO: Validate all characters.
+    errno = 0;
+    char *end;
+    int32_t ret = strtol(val, &end, 10);
+    if (errno == ERANGE) {
+        if (e != NULL) {
+            *e = LANIAKEA_INI_GET_ERROR_TYPE_NOT_MATCH;
+        }
+        return 0;
+    }
+
+    // Success.
+    if (e != NULL) {
+        *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+    }
+
+    return ret;
 }
 
 int laniakea_ini_load(laniakea_ini *ini, const char *path)

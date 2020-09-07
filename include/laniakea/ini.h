@@ -77,9 +77,29 @@ laniakea_ini* laniakea_ini_new();
 void laniakea_ini_insert(laniakea_ini *ini, const char *section,
         const char *key, const char *value);
 
+/**
+ * @brief Get value by key from the ini as c string type.
+ *
+ * @param ini The ini object.
+ * @param section The section.
+ * @param key The key for get value.
+ * @param e Pointer to receive error code.
+ * @return Value for key or NULL.
+ */
 const char* laniakea_ini_get_string(const laniakea_ini *ini,
         const char *section, const char *key, int *e);
 
+/**
+ * @brief Get value by key from the ini as 32bit integer type.
+ *
+ * @param ini The ini object.
+ * @param section The section.
+ * @param key The key for get value.
+ * @param e Pointer to recieve error code.
+ * @return If e is set to LANIAKEA_INI_GET_ERROR_SUCCESS, the return value is
+ *         integer converted value for key.
+ *         If e is set to error, the return value is undefined.
+ */
 int32_t laniakea_ini_get_i32(const laniakea_ini *ini, const char *section,
         const char *key, int *e);
 
