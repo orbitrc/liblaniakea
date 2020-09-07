@@ -293,20 +293,28 @@ int laniakea_ini_load(laniakea_ini *ini, const char *path)
     char *line;
     size_t buf_n = 0;
     ssize_t read_n = 0;
-    const char *section;
+    char *section = NULL;
 
     while (read_n != -1) {
         read_n = getline(&line, &buf_n, f);
         if (read_n != -1) {
             laniakea_string_trim(line);
-            printf("line: %s\n", line);
             if (laniakea_string_starts_with(line, "[")) {
-                section = line;
+                if (section != NULL) {
+                    free(section);
+                }
+                section = malloc(strlen(line));
+                strcpy(section, line);
             } else if (laniakea_string_eq(line, "")) {
                 continue;
             } else {
                 laniakea_string_vec *kv;
                 kv = laniakea_string_splitn(line, 2, "=");
+                printf(" - section: %s\n", section);
+                printf("key: %s, value: %s\n",
+                    laniakea_string_vec_get(kv, 0),
+                    laniakea_string_vec_get(kv, 1)
+                );
                 laniakea_ini_insert(ini, section,
                     laniakea_string_vec_get(kv, 0),
                     laniakea_string_vec_get(kv, 1));
@@ -314,6 +322,10 @@ int laniakea_ini_load(laniakea_ini *ini, const char *path)
             }
         }
     }
+    if (section != NULL) {
+        free(section);
+    }
+    
     free(line);
     fclose(f);
 
