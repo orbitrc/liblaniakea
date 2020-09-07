@@ -43,6 +43,17 @@ void test_splitn()
     printf("-------------------------------\n");
 }
 
+void test_trim()
+{
+    char str1[32] = "Hello, world!     \n";
+    laniakea_string_trim(str1);
+    assert(laniakea_string_eq(str1, "Hello, world!"));
+
+    char str2[32] = "[Item 42]\n";
+    laniakea_string_trim(str2);
+    assert(laniakea_string_eq(str2, "[Item 42]"));
+}
+
 int main()
 {
     printf("test_find\n");
@@ -83,6 +94,11 @@ int main()
     printf("test_splitn\n");
     printf("=================\n");
     test_splitn();
+    printf("\n");
+
+    printf("test_trim\n");
+    printf("==============\n");
+    test_trim();
     printf("\n");
 
     return 0;
