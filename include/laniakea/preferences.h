@@ -18,6 +18,8 @@ LANIAKEA_EXTERN_C_BEGIN
 typedef struct laniakea_ini laniakea_ini;
 
 typedef struct laniakea_preferences {
+    // - Appearance
+    // bool dark_mode;
     // - Display.
     // void *scales;
     // - Desktop.
@@ -45,6 +47,26 @@ laniakea_preferences* laniakea_preferences_new();
  * @return Error code.
  */
 int laniakea_preferences_load(laniakea_preferences *preferences);
+
+
+/*====================*/
+/* Appearance get/set */
+/*====================*/
+
+laniakea_bool laniakea_preferences_dark_mode(
+        const laniakea_preferences *preferences);
+
+void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
+        laniakea_bool value);
+
+/*=================*/
+/* Display get/set */
+/*=================*/
+
+
+/*=================*/
+/* Desktop get/set */
+/*=================*/
 
 LANIAKEA_EXTERN_C_END
 

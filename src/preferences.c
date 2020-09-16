@@ -46,4 +46,30 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
     return LANIAKEA_FILE_ERROR_SUCCESS;
 }
 
+laniakea_bool laniakea_preferences_dark_mode(laniakea_preferences *preferences)
+{
+    int err;
+    laniakea_bool value = laniakea_ini_get_bool(preferences->conf,
+        "Appearance", "dark_mode", &err);
+
+    // Set default value.
+    if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
+            err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
+        laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode",
+            LANIAKEA_FALSE);
+
+        return LANIAKEA_FALSE;
+    }
+
+    return value;
+}
+
+void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
+        laniakea_bool value)
+{
+    const char *v = (value == LANIAKEA_TRUE ? "true" : "false");
+    laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode", v);
+}
+
+
 LANIAKEA_EXTERN_C_END
