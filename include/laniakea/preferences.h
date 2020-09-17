@@ -53,8 +53,7 @@ int laniakea_preferences_load(laniakea_preferences *preferences);
 /* Appearance get/set */
 /*====================*/
 
-laniakea_bool laniakea_preferences_dark_mode(
-        const laniakea_preferences *preferences);
+laniakea_bool laniakea_preferences_dark_mode(laniakea_preferences *preferences);
 
 void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
         laniakea_bool value);

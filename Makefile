@@ -11,6 +11,8 @@ TEST_EXEC = tests/test_preferences_load \
 	tests/test_vec \
 	tests/test_string
 
+PREFIX ?= /usr/local
+
 CFLAGS += -I./include -Wall
 default:CFLAGS += -g
 
@@ -21,6 +23,7 @@ test:TARGET_DIR = target/debug
 VERSION_MAJOR = 0
 VERSION_MINOR = 1
 VERSION_PATCH = 0
+VERSION = $(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
 SONAME = liblaniakea.so.$(VERSION_MAJOR)
 
 default: $(OBJ)
@@ -32,11 +35,10 @@ src/%.o: src/%.c
 
 release: $(OBJ)
 	mkdir -p target/release
-	$(CC) -shared $(CFLAGS) -Wl,-soname,$(SONAME) -o target/release/liblaniakea.so $^
-	rm -rf $(TARGET_DIR)/*.so.*
-	ln -s liblaniakea.so $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR)
-	ln -s liblaniakea.so.$(VERSION_MAJOR) $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR)
-	ln -s liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR) $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR).$(VERSION_PATCH)
+	$(CC) -shared $(CFLAGS) -Wl,-soname,$(SONAME) -o target/release/liblaniakea.so.$(VERSION) $^
+	ln -f -s liblaniakea.so.$(VERSION) $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR)
+	ln -f -s liblaniakea.so.$(VERSION_MAJOR).$(VERSION_MINOR) $(TARGET_DIR)/liblaniakea.so.$(VERSION_MAJOR)
+	ln -f -s liblaniakea.so.$(VERSION_MAJOR) $(TARGET_DIR)/liblaniakea.so
 
 tests/%: tests/%.c
 	$(CC) $(CFLAGS) $< -Ltarget/debug -llaniakea -o $@
@@ -52,6 +54,17 @@ test: $(TEST_EXEC)
 	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_map
 	echo -e "\t\e[1m\e[32m[test_ini]\e[0m"
 	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_ini
+
+install: $(DESTDIR)/$(PREFIX)/lib $(DESTDIR)/$(PREFIX)/include
+	strip target/release/liblaniakea.so.$(VERSION)
+	cp -P target/release/liblaniakea.so* $(DESTDIR)/$(PREFIX)/lib/
+	cp -r include/laniakea $(DESTDIR)/$(PREFIX)/include/
+
+$(DESTDIR)/$(PREFIX)/lib:
+	mkdir -p $(DESTDIR)/$(PREFIX)/lib
+
+$(DESTDIR)/$(PREFIX)/include:
+	mkdir -p $(DESTDIR)/$(PREFIX)/include
 
 clean:
 	rm -rf target
