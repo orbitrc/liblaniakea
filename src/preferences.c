@@ -24,6 +24,11 @@ laniakea_preferences* laniakea_preferences_new()
 
 int laniakea_preferences_load(laniakea_preferences *preferences)
 {
+    // Initialize ini.
+    if (preferences->conf == NULL) {
+        preferences->conf = laniakea_ini_new();
+    }
+
     // Make path.
     const char *home = getenv("HOME");
     char *path = malloc(

@@ -95,8 +95,8 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
         );
         ini->capacity += LANIAKEA_INI_CAPACITY_MULTIPLE;
         for (size_t i = 0; i < ini->length; ++i) {
-            new_sections[i]->name = ini->sections[i]->name;
             new_sections[i] = ini->sections[i];
+            new_sections[i]->name = ini->sections[i]->name;
         }
         free(ini->sections);
         ini->sections = new_sections;

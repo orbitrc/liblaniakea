@@ -5,7 +5,7 @@ OBJ = src/base.o \
 	src/string.o \
 	src/vec.o
 
-TEST_EXEC = tests/test_preferences_load \
+TEST_EXEC = tests/test_preferences \
 	tests/test_map \
 	tests/test_ini \
 	tests/test_vec \
@@ -41,11 +41,9 @@ release: $(OBJ)
 	ln -f -s liblaniakea.so.$(VERSION_MAJOR) $(TARGET_DIR)/liblaniakea.so
 
 tests/%: tests/%.c
-	$(CC) $(CFLAGS) $< -Ltarget/debug -llaniakea -o $@
+	$(CC) $(CFLAGS) $< -Ltarget/debug -llaniakea -Wl,-rpath,'$$ORIGIN'/../$(TARGET_DIR) -o $@
 
 test: $(TEST_EXEC)
-	echo -e "\t\e[1m\e[32m[test_preferences_load]\e[0m"
-	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_preferences_load
 	echo -e "\t\e[1m\e[32m[test_string]\e[0m"
 	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_string
 	echo -e "\t\e[1m\e[32m[test_vec]\e[0m"
@@ -54,6 +52,8 @@ test: $(TEST_EXEC)
 	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_map
 	echo -e "\t\e[1m\e[32m[test_ini]\e[0m"
 	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_ini
+	echo -e "\t\e[1m\e[32m[test_preferences]\e[0m"
+	LD_LIBRARY_PATH=$(TARGET_DIR) tests/test_preferences
 
 install: $(DESTDIR)/$(PREFIX)/lib $(DESTDIR)/$(PREFIX)/include
 	strip target/release/liblaniakea.so.$(VERSION)
@@ -69,3 +69,4 @@ $(DESTDIR)/$(PREFIX)/include:
 clean:
 	rm -rf target
 	rm -rf src/*.o
+	rm $(TEST_EXEC)

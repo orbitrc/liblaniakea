@@ -19,6 +19,8 @@ void test_insert()
     laniakea_ini_insert(ini, "Section 1", "key2", "value2");
     laniakea_ini_insert(ini, "Section 2", "key1", "value1");
     laniakea_ini_insert(ini, "Section 2", "key2", "value2");
+    laniakea_ini_insert(ini, "Section 3", "key1", "value1");
+    laniakea_ini_insert(ini, "Section 4", "key1", "value1");
 
     laniakea_ini_free(ini);
 }

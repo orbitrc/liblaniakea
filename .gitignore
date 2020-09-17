@@ -7,5 +7,6 @@ tests/test_map
 tests/test_ini
 tests/test_vec
 tests/test_string
+tests/test_preferences
 
 tests/save_test.ini
