@@ -46,6 +46,34 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
     return LANIAKEA_FILE_ERROR_SUCCESS;
 }
 
+int laniakea_preferences_save(laniakea_preferences *preferences)
+{
+    // Make path.
+    const char *home = getenv("HOME");
+    char *path = malloc(
+        strlen(home) + strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 2);
+    strncpy(path, home, strlen(home));
+    strncat(path, "/", 2);
+    strncat(path,
+        LANIAKEA_PREFERENCES_CONFIG_PATH,
+        strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 1);
+    int err = laniakea_ini_save(preferences->conf, path);
+    free(path);
+
+    // Save file.
+    if (err == LANIAKEA_FILE_ERROR_NO_DIRECTORY) {
+        return err;
+    }
+    if (err == LANIAKEA_FILE_ERROR_PERMISSION) {
+        return err;
+    }
+    if (err != LANIAKEA_FILE_ERROR_SUCCESS) {
+        return err;
+    }
+
+    return LANIAKEA_FILE_ERROR_SUCCESS;
+}
+
 laniakea_bool laniakea_preferences_dark_mode(laniakea_preferences *preferences)
 {
     int err;

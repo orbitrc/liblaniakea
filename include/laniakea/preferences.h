@@ -49,6 +49,15 @@ laniakea_preferences* laniakea_preferences_new();
 int laniakea_preferences_load(laniakea_preferences *preferences);
 
 
+/**
+ * @brief Save config file to disk.
+ *
+ * @param preferences The laniakea_preferences object.
+ * @return Error code.
+ */
+int laniakea_preferences_save(laniakea_preferences *preferences);
+
+
 /*====================*/
 /* Appearance get/set */
 /*====================*/
