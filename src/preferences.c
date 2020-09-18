@@ -86,10 +86,11 @@ laniakea_bool laniakea_preferences_dark_mode(laniakea_preferences *preferences)
         "Appearance", "dark_mode", &err);
 
     // Set default value.
+    const char *v = (value == LANIAKEA_TRUE ? "true" : "false");
     if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
             err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
         laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode",
-            LANIAKEA_FALSE);
+            v);
 
         return LANIAKEA_FALSE;
     }
