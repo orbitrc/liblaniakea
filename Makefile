@@ -15,6 +15,7 @@ PREFIX ?= /usr/local
 
 CFLAGS += -I./include -Wall
 default:CFLAGS += -g
+release:CFLAGS += -O2
 
 TARGET_DIR = target/release
 default:TARGET_DIR = target/debug
