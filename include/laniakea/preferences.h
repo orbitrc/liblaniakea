@@ -76,6 +76,28 @@ void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
 /* Desktop get/set */
 /*=================*/
 
+
+/*==================*/
+/* Keyboard get/set */
+/*==================*/
+
+uint16_t laniakea_preferences_keyboard_delay_until_repeat(
+        laniakea_preferences *preferences);
+
+
+void laniakea_preferences_set_keyboard_delay_until_repeat(
+        laniakea_preferences *preferences, uint16_t value
+);
+
+uint8_t laniakea_preferences_keyboard_key_repeat(
+        laniakea_preferences *preferences
+);
+
+void laniakea_preferences_set_keyboard_key_repeat(
+        laniakea_preferences *preferences, uint8_t value
+);
+
+
 LANIAKEA_EXTERN_C_END
 
 #endif /* _LANIAKEA_PREFERENCES_H */

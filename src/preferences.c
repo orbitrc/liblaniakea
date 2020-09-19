@@ -105,5 +105,67 @@ void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
     laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode", v);
 }
 
+uint16_t laniakea_preferences_keyboard_delay_until_repeat(
+        laniakea_preferences *preferences
+)
+{
+    int err;
+    char v[7];
+    uint16_t value = laniakea_ini_get_u32(preferences->conf,
+        "Keyboard", "delay_until_repeat", &err);
+
+    // Set default value.
+    if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
+            err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
+        sprintf(v, "%d",
+            LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT);
+        laniakea_ini_insert(preferences->conf, "Keyboard", "delay_until_repeat",
+            v);
+
+        return LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT;
+    }
+
+    return value;
+}
+
+void laniakea_preferences_set_keyboard_delay_until_repeat(
+        laniakea_preferences *preferences, uint16_t value
+)
+{
+    char v[7];
+    sprintf(v, "%d", value);
+    laniakea_ini_insert(preferences->conf, "Keyboard", "delay_until_repeat", v);
+}
+
+uint8_t laniakea_preferences_keyboard_key_repeat(
+        laniakea_preferences *preferences
+)
+{
+    int err;
+    char v[4];
+    uint8_t value = laniakea_ini_get_u32(preferences->conf, "Keyboard",
+        "key_repeat", &err);
+
+    // Set default value.
+    if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
+            err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
+        sprintf(v, "%d", LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT);
+        laniakea_ini_insert(preferences->conf, "Keyboard", "key_repeat", v);
+
+        return LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT;
+    }
+
+    return value;
+}
+
+void laniakea_preferences_set_keyboard_key_repeat(
+        laniakea_preferences *preferences, uint8_t value
+)
+{
+    char v[4];
+    sprintf(v, "%d", value);
+    laniakea_ini_insert(preferences->conf, "Keyboard", "key_repeat", v);
+}
+
 
 LANIAKEA_EXTERN_C_END
