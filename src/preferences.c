@@ -79,6 +79,12 @@ int laniakea_preferences_save(laniakea_preferences *preferences)
     return LANIAKEA_FILE_ERROR_SUCCESS;
 }
 
+void laniakea_preferences_free(laniakea_preferences *preferences)
+{
+    laniakea_ini_free(preferences->conf);
+    free(preferences);
+}
+
 laniakea_bool laniakea_preferences_dark_mode(laniakea_preferences *preferences)
 {
     int err;

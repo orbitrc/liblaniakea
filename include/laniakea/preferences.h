@@ -58,6 +58,14 @@ int laniakea_preferences_load(laniakea_preferences *preferences);
 int laniakea_preferences_save(laniakea_preferences *preferences);
 
 
+/**
+ * @brief Free preferences from memory.
+ *
+ * @param preferences The laniakea_preferences object.
+ */
+void laniakea_preferences_free(laniakea_preferences *preferences);
+
+
 /*====================*/
 /* Appearance get/set */
 /*====================*/

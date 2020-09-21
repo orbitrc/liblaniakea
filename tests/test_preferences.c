@@ -12,7 +12,9 @@ int main()
         fprintf(stderr, "Error: %d\n", err);
     }
     laniakea_bool dark_mode = laniakea_preferences_dark_mode(preferences);
-    fprintf(stderr, "dark_mode: %d", dark_mode);
+    fprintf(stderr, "dark_mode: %d\n", dark_mode);
+
+    laniakea_preferences_free(preferences);
 
     return 0;
 }
