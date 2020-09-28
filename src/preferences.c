@@ -111,6 +111,36 @@ void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
     laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode", v);
 }
 
+/*==================*/
+/* Keyboard get/set */
+/*==================*/
+
+const char* laniakea_preferences_keyboard_caps_lock_behavior(
+        laniakea_preferences *preferences
+)
+{
+    int err;
+    const char *value = laniakea_ini_get_string(preferences->conf,
+        "Keyboard", "caps_lock_behavior", &err);
+
+    // Set default value.
+    if (value == NULL) {
+        laniakea_ini_insert(preferences->conf, "Keyboard", "caps_lock_behavior",
+            LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK);
+
+        return LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK;
+    }
+
+    return value;
+}
+
+void laniakea_preferences_set_keyboard_caps_lock_behavior(
+        laniakea_preferences *preferences, const char *behavior)
+{
+    laniakea_ini_insert(preferences->conf, "Keyboard", "caps_lock_behavior",
+        behavior);
+}
+
 uint16_t laniakea_preferences_keyboard_delay_until_repeat(
         laniakea_preferences *preferences
 )

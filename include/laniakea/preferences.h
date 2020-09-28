@@ -8,6 +8,10 @@
 
 #define LANIAKEA_PREFERENCES_CONFIG_PATH ".config/laniakea/preferences.conf"
 
+#define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK "CapsLock"
+#define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CTRL "Ctrl"
+#define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHIVIOR_ESC "Esc"
+
 #define LANIAKEA_PREFERENCES_DEFAULT_DESKTOP_NUMBER_OF_DESKTOPS 4
 #define LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT 600
 #define LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT 25
@@ -26,6 +30,7 @@ typedef struct laniakea_preferences {
     // char *wallpaper;
     // size_t number_of_desktops;
     // - Keyboard.
+    // char *caps_lock_behavior;   // ["CapsLock", "Ctrl", "Esc"]
     // int16_t delay_until_repeat; // 0-10,000
     // uint8_t key_repeat;         // 0-255
     laniakea_ini *conf;
@@ -88,6 +93,13 @@ void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
 /*==================*/
 /* Keyboard get/set */
 /*==================*/
+
+const char* laniakea_preferences_keyboard_caps_lock_behavior(
+        laniakea_preferences *preferences);
+
+void laniakea_preferences_set_keyboard_caps_lock_behavior(
+        laniakea_preferences *preferences, const char *behavior);
+
 
 uint16_t laniakea_preferences_keyboard_delay_until_repeat(
         laniakea_preferences *preferences);
