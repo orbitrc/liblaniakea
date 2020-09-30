@@ -54,6 +54,21 @@ int main()
         fprintf(stderr, "Failed to load ini file.\n");
         return 1;
     }
+    printf("\n");
+
+    //=================
+    // Test reload
+    //=================
+    printf("test reload\n");
+    printf("==================\n");
+    laniakea_ini_free(ini);
+    ini = laniakea_ini_new();
+    laniakea_ini_load(ini, "tests/test.ini");
+
+    laniakea_ini_free(ini);
+    ini = laniakea_ini_new();
+    laniakea_ini_load(ini, "tests/test.ini");
+    printf("\n");
 
     //=================
     // Test save

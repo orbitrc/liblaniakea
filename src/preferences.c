@@ -112,6 +112,31 @@ void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
     laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode", v);
 }
 
+/*=================*/
+/* Desktop get/set */
+/*=================*/
+
+const char* laniakea_preferences_desktop_wallpaper(
+        laniakea_preferences *preferences)
+{
+    int err;
+    const char *wallpaper = laniakea_ini_get_string(preferences->conf,
+        "Desktop", "wallpaper", &err);
+
+    if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
+            err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
+        return "";
+    }
+
+    return wallpaper;
+}
+
+void laniakea_preferences_desktop_set_wallpaper(
+        laniakea_preferences *preferences, const char *path)
+{
+    laniakea_ini_insert(preferences->conf, "Desktop", "wallpaper", path);
+}
+
 /*==================*/
 /* Keyboard get/set */
 /*==================*/

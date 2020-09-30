@@ -28,6 +28,7 @@ typedef struct laniakea_preferences {
     // void *scales;
     // - Desktop.
     // char *wallpaper;
+    // char *wallpapers;        // Future feature.
     // size_t number_of_desktops;
     // - Keyboard.
     // char *caps_lock_behavior;   // ["CapsLock", "Ctrl", "Esc"]
@@ -88,6 +89,12 @@ void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
 /*=================*/
 /* Desktop get/set */
 /*=================*/
+
+const char* laniakea_preferences_desktop_wallpaper(
+        laniakea_preferences *preferences);
+
+void laniakea_preferences_desktop_set_wallpaper(
+        laniakea_preferences *preferences, const char *path);
 
 
 /*==================*/
