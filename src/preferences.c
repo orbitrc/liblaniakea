@@ -34,6 +34,7 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
     char *path = malloc(
         strlen(home) + strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 2);
     strncpy(path, home, strlen(home));
+    path[strlen(home)] = '\0';
     strncat(path, "/", 2);
     strncat(path,
         LANIAKEA_PREFERENCES_CONFIG_PATH,
