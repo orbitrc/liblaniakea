@@ -81,6 +81,12 @@ laniakea_bool laniakea_preferences_dark_mode(laniakea_preferences *preferences);
 void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
         laniakea_bool value);
 
+bool laniakea_preferences_appearance_dark_mode(
+        laniakea_preferences *preferences);
+
+void laniakea_preferences_appearance_set_dark_mode(
+        laniakea_preferences *preferences, bool value);
+
 /*=================*/
 /* Display get/set */
 /*=================*/
