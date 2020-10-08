@@ -12,8 +12,14 @@ Build
 $ make
 ```
 
+### Build and Run Tests
+```sh
+$ make test
+```
+
 ### Release build
 ```sh
+$ make clean
 $ make release
 ```
 
