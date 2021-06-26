@@ -95,13 +95,13 @@ bool laniakea_preferences_appearance_dark_mode(
 {
     int err;
     laniakea_bool value = laniakea_ini_get_bool(preferences->conf,
-        "Appearance", "dark_mode", &err);
+        "appearance", "dark_mode", &err);
 
     // Set default value.
     const char *v = (value == true ? "true" : "false");
     if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
             err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
-        laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode",
+        laniakea_ini_insert(preferences->conf, "appearance", "dark_mode",
             v);
 
         return false;
@@ -114,7 +114,7 @@ void laniakea_preferences_appearance_set_dark_mode(
         laniakea_preferences *preferences, bool value)
 {
     const char *v = (value == LANIAKEA_TRUE ? "true" : "false");
-    laniakea_ini_insert(preferences->conf, "Appearance", "dark_mode", v);
+    laniakea_ini_insert(preferences->conf, "appearance", "dark_mode", v);
 }
 
 // Deprecated
@@ -143,7 +143,7 @@ const char* laniakea_preferences_desktop_wallpaper(
 {
     int err;
     const char *wallpaper = laniakea_ini_get_string(preferences->conf,
-        "Desktop", "wallpaper", &err);
+        "desktop", "wallpaper", &err);
 
     if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
             err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
@@ -156,7 +156,7 @@ const char* laniakea_preferences_desktop_wallpaper(
 void laniakea_preferences_desktop_set_wallpaper(
         laniakea_preferences *preferences, const char *path)
 {
-    laniakea_ini_insert(preferences->conf, "Desktop", "wallpaper", path);
+    laniakea_ini_insert(preferences->conf, "desktop", "wallpaper", path);
 }
 
 /*==================*/
@@ -169,11 +169,11 @@ const char* laniakea_preferences_keyboard_caps_lock_behavior(
 {
     int err;
     const char *value = laniakea_ini_get_string(preferences->conf,
-        "Keyboard", "caps_lock_behavior", &err);
+        "keyboard", "caps_lock_behavior", &err);
 
     // Set default value.
     if (value == NULL) {
-        laniakea_ini_insert(preferences->conf, "Keyboard", "caps_lock_behavior",
+        laniakea_ini_insert(preferences->conf, "keyboard", "caps_lock_behavior",
             LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK);
 
         return LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK;
@@ -185,7 +185,7 @@ const char* laniakea_preferences_keyboard_caps_lock_behavior(
 void laniakea_preferences_set_keyboard_caps_lock_behavior(
         laniakea_preferences *preferences, const char *behavior)
 {
-    laniakea_ini_insert(preferences->conf, "Keyboard", "caps_lock_behavior",
+    laniakea_ini_insert(preferences->conf, "keyboard", "caps_lock_behavior",
         behavior);
 }
 
@@ -196,14 +196,14 @@ uint16_t laniakea_preferences_keyboard_delay_until_repeat(
     int err;
     char v[7];
     uint16_t value = laniakea_ini_get_u32(preferences->conf,
-        "Keyboard", "delay_until_repeat", &err);
+        "keyboard", "delay_until_repeat", &err);
 
     // Set default value.
     if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
             err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
         sprintf(v, "%d",
             LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT);
-        laniakea_ini_insert(preferences->conf, "Keyboard", "delay_until_repeat",
+        laniakea_ini_insert(preferences->conf, "keyboard", "delay_until_repeat",
             v);
 
         return LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT;
@@ -218,7 +218,7 @@ void laniakea_preferences_set_keyboard_delay_until_repeat(
 {
     char v[7];
     sprintf(v, "%d", value);
-    laniakea_ini_insert(preferences->conf, "Keyboard", "delay_until_repeat", v);
+    laniakea_ini_insert(preferences->conf, "keyboard", "delay_until_repeat", v);
 }
 
 uint8_t laniakea_preferences_keyboard_key_repeat(
@@ -227,14 +227,14 @@ uint8_t laniakea_preferences_keyboard_key_repeat(
 {
     int err;
     char v[4];
-    uint8_t value = laniakea_ini_get_u32(preferences->conf, "Keyboard",
+    uint8_t value = laniakea_ini_get_u32(preferences->conf, "keyboard",
         "key_repeat", &err);
 
     // Set default value.
     if (err == LANIAKEA_INI_GET_ERROR_NO_SECTION ||
             err == LANIAKEA_INI_GET_ERROR_NO_KEY) {
         sprintf(v, "%d", LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT);
-        laniakea_ini_insert(preferences->conf, "Keyboard", "key_repeat", v);
+        laniakea_ini_insert(preferences->conf, "keyboard", "key_repeat", v);
 
         return LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT;
     }
@@ -248,7 +248,7 @@ void laniakea_preferences_set_keyboard_key_repeat(
 {
     char v[4];
     sprintf(v, "%d", value);
-    laniakea_ini_insert(preferences->conf, "Keyboard", "key_repeat", v);
+    laniakea_ini_insert(preferences->conf, "keyboard", "key_repeat", v);
 }
 
 
