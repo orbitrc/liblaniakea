@@ -32,13 +32,13 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
     // Make path.
     const char *home = getenv("HOME");
     char *path = malloc(
-        strlen(home) + strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 2);
+        strlen(home) + strlen(LA_PREFERENCES_LANIAKEA_CONFIG_PATH) + 2);
     strncpy(path, home, strlen(home));
     path[strlen(home)] = '\0';
     strncat(path, "/", 2);
     strncat(path,
-        LANIAKEA_PREFERENCES_CONFIG_PATH,
-        strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 1);
+        LA_PREFERENCES_LANIAKEA_CONFIG_PATH,
+        strlen(LA_PREFERENCES_LANIAKEA_CONFIG_PATH) + 1);
 
     // Load file.
     int err = laniakea_ini_load(preferences->conf, path);
@@ -57,12 +57,12 @@ int laniakea_preferences_save(laniakea_preferences *preferences)
     // Make path.
     const char *home = getenv("HOME");
     char *path = malloc(
-        strlen(home) + strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 2);
+        strlen(home) + strlen(LA_PREFERENCES_LANIAKEA_CONFIG_PATH) + 2);
     strncpy(path, home, strlen(home));
     strncat(path, "/", 2);
     strncat(path,
-        LANIAKEA_PREFERENCES_CONFIG_PATH,
-        strlen(LANIAKEA_PREFERENCES_CONFIG_PATH) + 1);
+        LA_PREFERENCES_LANIAKEA_CONFIG_PATH,
+        strlen(LA_PREFERENCES_LANIAKEA_CONFIG_PATH) + 1);
     int err = laniakea_ini_save(preferences->conf, path);
     free(path);
 

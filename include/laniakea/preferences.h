@@ -7,6 +7,7 @@
 #include <laniakea/base.h>
 
 #define LANIAKEA_PREFERENCES_CONFIG_PATH ".config/laniakea/preferences.conf"
+#define LA_PREFERENCES_LANIAKEA_CONFIG_PATH ".config/laniakea.conf"
 
 #define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK "CapsLock"
 #define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CTRL "Ctrl"
