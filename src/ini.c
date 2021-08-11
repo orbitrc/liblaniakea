@@ -13,11 +13,11 @@
 #include <laniakea/string.h>
 #include <laniakea/vec.h>
 
-LANIAKEA_EXTERN_C_BEGIN
+LA_EXTERN_C_BEGIN
 
-laniakea_ini_section* laniakea_ini_section_new(const char *name)
+la_ini_section* la_ini_section_new(const char *name)
 {
-    laniakea_ini_section *section = malloc(sizeof(laniakea_ini_section));
+    la_ini_section *section = malloc(sizeof(la_ini_section));
 
     section->name = malloc(strlen(name) + 1);
     strcpy(section->name, name);
@@ -26,19 +26,19 @@ laniakea_ini_section* laniakea_ini_section_new(const char *name)
     return section;
 }
 
-void laniakea_ini_section_insert(laniakea_ini_section *section,
+void la_ini_section_insert(la_ini_section *section,
         const char *key, const char *value)
 {
     laniakea_string_map_insert(section->map, key, value);
 }
 
-const char* laniakea_ini_section_get(const laniakea_ini_section *section,
+const char* la_ini_section_get(const la_ini_section *section,
         const char *key)
 {
     return laniakea_string_map_get(section->map, key);
 }
 
-void laniakea_ini_section_free(laniakea_ini_section *section)
+void la_ini_section_free(la_ini_section *section)
 {
     free(section->name);
     laniakea_string_map_free(section->map);
@@ -50,23 +50,23 @@ void laniakea_ini_section_free(laniakea_ini_section *section)
 /* laniakea_ini methods */
 /*======================*/
 
-laniakea_ini* laniakea_ini_new()
+la_ini* la_ini_new()
 {
-    laniakea_ini *ini = malloc(sizeof(laniakea_ini));
+    la_ini *ini = malloc(sizeof(la_ini));
 
     ini->length = 0;
-    ini->capacity = LANIAKEA_INI_CAPACITY_MULTIPLE;
-    ini->sections = malloc(sizeof(laniakea_ini_section*)
-        * LANIAKEA_INI_CAPACITY_MULTIPLE);
+    ini->capacity = LA_INI_CAPACITY_MULTIPLE;
+    ini->sections = malloc(sizeof(la_ini_section*)
+        * LA_INI_CAPACITY_MULTIPLE);
 
     return ini;
 }
 
-void laniakea_ini_insert(laniakea_ini *ini, const char *section,
+void la_ini_insert(la_ini *ini, const char *section,
         const char *key, const char *value)
 {
     // Find section by name.
-    laniakea_ini_section *ini_section = NULL;
+    la_ini_section *ini_section = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
         if (laniakea_string_eq(section, ini->sections[i]->name)) {
             ini_section = ini->sections[i];
@@ -76,24 +76,24 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
 
     // If no section, add one.
     if (ini_section == NULL) {
-        ini->sections[ini->length] = laniakea_ini_section_new(section);
-        laniakea_ini_section_insert(ini->sections[ini->length],
+        ini->sections[ini->length] = la_ini_section_new(section);
+        la_ini_section_insert(ini->sections[ini->length],
             key, value);
         ini->length++;
     }
     // If already has section, then add values to there.
     if (ini_section != NULL) {
-        laniakea_ini_section_insert(ini_section, key, value);
+        la_ini_section_insert(ini_section, key, value);
     }
 
     // If capacity is full, re-allocate memory.
     if (ini->length == ini->capacity) {
-        laniakea_ini_section **new_sections = malloc(
-            sizeof(laniakea_ini_section*)
+        la_ini_section **new_sections = malloc(
+            sizeof(la_ini_section*)
                 *
-            (ini->capacity + LANIAKEA_INI_CAPACITY_MULTIPLE)
+            (ini->capacity + LA_INI_CAPACITY_MULTIPLE)
         );
-        ini->capacity += LANIAKEA_INI_CAPACITY_MULTIPLE;
+        ini->capacity += LA_INI_CAPACITY_MULTIPLE;
         for (size_t i = 0; i < ini->length; ++i) {
             new_sections[i] = ini->sections[i];
             new_sections[i]->name = ini->sections[i]->name;
@@ -103,10 +103,10 @@ void laniakea_ini_insert(laniakea_ini *ini, const char *section,
     }
 }
 
-const char* laniakea_ini_get_string(const laniakea_ini *ini,
+const char* la_ini_get_string(const la_ini *ini,
         const char *section, const char *key, int *e)
 {
-    const laniakea_ini_section *sec = NULL;
+    const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
         if (laniakea_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
@@ -115,28 +115,28 @@ const char* laniakea_ini_get_string(const laniakea_ini *ini,
     }
     // No section error.
     if (sec == NULL && e != NULL) {
-        *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+        *e = LA_INI_GET_ERROR_NO_SECTION;
         return NULL;
     }
 
     // No key error.
-    const char *val = laniakea_ini_section_get(sec, key);
+    const char *val = la_ini_section_get(sec, key);
     if (val == NULL && e != NULL) {
-        *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+        *e = LA_INI_GET_ERROR_NO_KEY;
     }
 
     // Success.
     if (e != NULL) {
-        *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+        *e = LA_INI_GET_ERROR_SUCCESS;
     }
 
     return val;
 }
 
-int32_t laniakea_ini_get_i32(const laniakea_ini *ini, const char *section,
+int32_t la_ini_get_i32(const la_ini *ini, const char *section,
         const char *key, int *e)
 {
-    const laniakea_ini_section *sec = NULL;
+    const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
         if (laniakea_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
@@ -146,16 +146,16 @@ int32_t laniakea_ini_get_i32(const laniakea_ini *ini, const char *section,
     // No section error.
     if (sec == NULL) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+            *e = LA_INI_GET_ERROR_NO_SECTION;
         }
         return 0;
     }
 
     // No key error.
-    const char *val = laniakea_ini_section_get(sec, key);
+    const char *val = la_ini_section_get(sec, key);
     if (val == NULL) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+            *e = LA_INI_GET_ERROR_NO_KEY;
         }
         return 0;
     }
@@ -167,23 +167,23 @@ int32_t laniakea_ini_get_i32(const laniakea_ini *ini, const char *section,
     int32_t ret = strtol(val, &end, 10);
     if (errno == ERANGE) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_TYPE_NOT_MATCH;
+            *e = LA_INI_GET_ERROR_TYPE_NOT_MATCH;
         }
         return 0;
     }
 
     // Success.
     if (e != NULL) {
-        *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+        *e = LA_INI_GET_ERROR_SUCCESS;
     }
 
     return ret;
 }
 
-uint32_t laniakea_ini_get_u32(const laniakea_ini *ini, const char *section,
+uint32_t la_ini_get_u32(const la_ini *ini, const char *section,
         const char *key, int *e)
 {
-    const laniakea_ini_section *sec = NULL;
+    const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
         if (laniakea_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
@@ -193,16 +193,16 @@ uint32_t laniakea_ini_get_u32(const laniakea_ini *ini, const char *section,
     // No section error.
     if (sec == NULL) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+            *e = LA_INI_GET_ERROR_NO_SECTION;
         }
         return 0;
     }
 
     // No key error.
-    const char *val = laniakea_ini_section_get(sec, key);
+    const char *val = la_ini_section_get(sec, key);
     if (val == NULL) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+            *e = LA_INI_GET_ERROR_NO_KEY;
         }
         return 0;
     }
@@ -215,23 +215,23 @@ uint32_t laniakea_ini_get_u32(const laniakea_ini *ini, const char *section,
     uint32_t ret = strtol(val, &end, 10);
     if (errno == ERANGE) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_TYPE_NOT_MATCH;
+            *e = LA_INI_GET_ERROR_TYPE_NOT_MATCH;
         }
         return 0;
     }
 
     // Success.
     if (e != NULL) {
-        *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+        *e = LA_INI_GET_ERROR_SUCCESS;
     }
 
     return ret;
 }
 
-laniakea_bool laniakea_ini_get_bool(const laniakea_ini *ini,
+bool la_ini_get_bool(const la_ini *ini,
         const char *section, const char *key, int *e)
 {
-    const laniakea_ini_section *sec = NULL;
+    const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
         if (laniakea_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
@@ -241,51 +241,51 @@ laniakea_bool laniakea_ini_get_bool(const laniakea_ini *ini,
     // No section error.
     if (sec == NULL) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_NO_SECTION;
+            *e = LA_INI_GET_ERROR_NO_SECTION;
         }
         return 0;
     }
 
     // No key error.
-    const char *val = laniakea_ini_section_get(sec, key);
+    const char *val = la_ini_section_get(sec, key);
     if (val == NULL) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_NO_KEY;
+            *e = LA_INI_GET_ERROR_NO_KEY;
         }
         return 0;
     }
 
     if (laniakea_string_eq(val, "true")) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+            *e = LA_INI_GET_ERROR_SUCCESS;
         }
-        return LANIAKEA_TRUE;
+        return true;
     }
     if (laniakea_string_eq(val, "false")) {
         if (e != NULL) {
-            *e = LANIAKEA_INI_GET_ERROR_SUCCESS;
+            *e = LA_INI_GET_ERROR_SUCCESS;
         }
-        return LANIAKEA_FALSE;
+        return false;
     }
 
     // Type not match error.
     if (e != NULL) {
-        *e = LANIAKEA_INI_GET_ERROR_TYPE_NOT_MATCH;
+        *e = LA_INI_GET_ERROR_TYPE_NOT_MATCH;
     }
-    return LANIAKEA_FALSE;
+    return false;
 }
 
-int laniakea_ini_load(laniakea_ini *ini, const char *path)
+int la_ini_load(la_ini *ini, const char *path)
 {
     FILE *f = fopen(path, "r");
     if (f == NULL) {
         switch (errno) {
         case ENOENT:
-            return LANIAKEA_FILE_ERROR_NO_FILE;
+            return LA_FILE_ERROR_NO_FILE;
         case EACCES:
-            return LANIAKEA_FILE_ERROR_PERMISSION;
+            return LA_FILE_ERROR_PERMISSION;
         default:
-            return LANIAKEA_FILE_ERROR_UNKNOWN;
+            return LA_FILE_ERROR_UNKNOWN;
         }
     }
 
@@ -317,7 +317,7 @@ int laniakea_ini_load(laniakea_ini *ini, const char *path)
                     laniakea_string_vec_get(kv, 0),
                     laniakea_string_vec_get(kv, 1)
                 );
-                laniakea_ini_insert(ini, section,
+                la_ini_insert(ini, section,
                     laniakea_string_vec_get(kv, 0),
                     laniakea_string_vec_get(kv, 1));
                 laniakea_string_vec_free(kv);
@@ -331,20 +331,20 @@ int laniakea_ini_load(laniakea_ini *ini, const char *path)
     free(line);
     fclose(f);
 
-    return LANIAKEA_FILE_ERROR_SUCCESS;
+    return LA_FILE_ERROR_SUCCESS;
 }
 
-int laniakea_ini_save(laniakea_ini *ini, const char *path)
+int la_ini_save(la_ini *ini, const char *path)
 {
     FILE *f = fopen(path, "w");
     if (f == NULL) {
         switch (errno) {
         case ENOENT:
-            return LANIAKEA_FILE_ERROR_NO_DIRECTORY;
+            return LA_FILE_ERROR_NO_DIRECTORY;
         case EACCES:
-            return LANIAKEA_FILE_ERROR_PERMISSION;
+            return LA_FILE_ERROR_PERMISSION;
         default:
-            return LANIAKEA_FILE_ERROR_UNKNOWN;
+            return LA_FILE_ERROR_UNKNOWN;
         }
     }
 
@@ -363,16 +363,16 @@ int laniakea_ini_save(laniakea_ini *ini, const char *path)
 
     fclose(f);
 
-    return LANIAKEA_FILE_ERROR_SUCCESS;
+    return LA_FILE_ERROR_SUCCESS;
 }
 
-void laniakea_ini_free(laniakea_ini *ini)
+void la_ini_free(la_ini *ini)
 {
     for (size_t i = 0; i < ini->length; ++i) {
-        laniakea_ini_section_free(ini->sections[i]);
+        la_ini_section_free(ini->sections[i]);
     }
 
     free(ini);
 }
 
-LANIAKEA_EXTERN_C_END
+LA_EXTERN_C_END

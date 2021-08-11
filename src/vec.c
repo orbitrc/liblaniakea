@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-LANIAKEA_EXTERN_C_BEGIN
+LA_EXTERN_C_BEGIN
 
 laniakea_string_vec* laniakea_string_vec_new()
 {
@@ -54,4 +54,4 @@ void laniakea_string_vec_free(laniakea_string_vec *vec)
     free(vec);
 }
 
-LANIAKEA_EXTERN_C_END
+LA_EXTERN_C_END

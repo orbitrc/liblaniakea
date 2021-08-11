@@ -5,9 +5,9 @@
 
 #include <laniakea/base.h>
 
-#define LANIAKEA_MAP_CAPACITY_MULTIPLE 4
+#define LA_MAP_CAPACITY_MULTIPLE 4
 
-LANIAKEA_EXTERN_C_BEGIN
+LA_EXTERN_C_BEGIN
 
 typedef struct laniakea_string_map_pair {
     char *key;
@@ -59,7 +59,7 @@ laniakea_string_map* laniakea_string_map_new();
  *
  * @return Boolean.
  */
-laniakea_bool laniakea_string_map_contains(const laniakea_string_map *map,
+bool laniakea_string_map_contains(const laniakea_string_map *map,
         const char *key);
 
 /**
@@ -100,6 +100,6 @@ void laniakea_string_map_remove(laniakea_string_map *map, const char *key);
  */
 void laniakea_string_map_free(laniakea_string_map *map);
 
-LANIAKEA_EXTERN_C_END
+LA_EXTERN_C_END
 
 #endif /* _LANIAKEA_MAP_H */

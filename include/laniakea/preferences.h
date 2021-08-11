@@ -6,7 +6,7 @@
 
 #include <laniakea/base.h>
 
-#define LANIAKEA_PREFERENCES_CONFIG_PATH ".config/laniakea/preferences.conf"
+#define LA_PREFERENCES_LANIAKEA_PREFERENCES_CONFIG_PATH ".config/laniakea/preferences.conf"
 #define LA_PREFERENCES_LANIAKEA_CONFIG_PATH ".config/laniakea.conf"
 
 #define LA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK "CapsLock"
@@ -25,9 +25,9 @@
 #define LA_PREFERENCES_DEFAULT_POWER_SHOW_BATTERY_IN_MENU_BAR true
 #define LANIAKEA_PREFERENCES_DEFAULT_POWER_SHOW_BATTERY_IN_MENU_BAR LANIAKEA_TRUE
 
-LANIAKEA_EXTERN_C_BEGIN
+LA_EXTERN_C_BEGIN
 
-typedef struct laniakea_ini laniakea_ini;
+typedef struct la_ini la_ini;
 
 typedef struct laniakea_preferences {
     // - Appearance
@@ -42,7 +42,7 @@ typedef struct laniakea_preferences {
     // char *caps_lock_behavior;   // ["CapsLock", "Ctrl", "Esc"]
     // int16_t delay_until_repeat; // 0-10,000
     // uint8_t key_repeat;         // 0-255
-    laniakea_ini *conf;
+    la_ini *conf;
 } laniakea_preferences;
 
 
@@ -84,10 +84,10 @@ void laniakea_preferences_free(laniakea_preferences *preferences);
 /* Appearance get/set */
 /*====================*/
 
-laniakea_bool laniakea_preferences_dark_mode(laniakea_preferences *preferences);
+bool laniakea_preferences_dark_mode(laniakea_preferences *preferences);
 
 void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
-        laniakea_bool value);
+        bool value);
 
 bool laniakea_preferences_appearance_dark_mode(
         laniakea_preferences *preferences);
@@ -139,6 +139,6 @@ void laniakea_preferences_set_keyboard_key_repeat(
 );
 
 
-LANIAKEA_EXTERN_C_END
+LA_EXTERN_C_END
 
 #endif /* _LANIAKEA_PREFERENCES_H */

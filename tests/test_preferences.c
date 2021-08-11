@@ -8,10 +8,10 @@ int main()
     preferences = laniakea_preferences_new();
 
     int err = laniakea_preferences_load(preferences);
-    if (err != LANIAKEA_FILE_ERROR_SUCCESS) {
+    if (err != LA_FILE_ERROR_SUCCESS) {
         fprintf(stderr, "Error: %d\n", err);
     }
-    laniakea_bool dark_mode = laniakea_preferences_dark_mode(preferences);
+    bool dark_mode = laniakea_preferences_dark_mode(preferences);
     fprintf(stderr, "dark_mode: %d\n", dark_mode);
 
     const char *wallpaper = laniakea_preferences_desktop_wallpaper(preferences);
@@ -30,7 +30,7 @@ int main()
     preferences = laniakea_preferences_new();
     fprintf(stderr, "1st load\n");
     err = laniakea_preferences_load(preferences);
-    fprintf(stderr, "1st err: %ld\n", err);
+    fprintf(stderr, "1st err: %d\n", err);
 
     fprintf(stderr, "2nd free\n");
     laniakea_preferences_free(preferences);
@@ -38,7 +38,7 @@ int main()
     preferences = laniakea_preferences_new();
     fprintf(stderr, "2nd load\n");
     err = laniakea_preferences_load(preferences);
-    fprintf(stderr, "2nd err: %ld\n", err);
+    fprintf(stderr, "2nd err: %d\n", err);
     fprintf(stderr, "2nd reloaded.\n");
 
     fprintf(stderr, "freeing...\n");

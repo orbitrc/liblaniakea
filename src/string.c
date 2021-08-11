@@ -5,7 +5,7 @@
 
 #include <laniakea/vec.h>
 
-LANIAKEA_EXTERN_C_BEGIN
+LA_EXTERN_C_BEGIN
 
 void laniakea_string_trim(char *str)
 {
@@ -31,32 +31,32 @@ void laniakea_string_trim(char *str)
     *end = '\0';
 }
 
-laniakea_bool laniakea_string_starts_with(const char *str, const char *cmp)
+bool laniakea_string_starts_with(const char *str, const char *cmp)
 {
     size_t cmp_len = strlen(cmp);
     for (size_t i = 0; i < cmp_len; ++i) {
         if (cmp[i] != str[i]) {
-            return LANIAKEA_FALSE;
+            return false;
         }
     }
 
-    return LANIAKEA_TRUE;
+    return true;
 }
 
-laniakea_bool laniakea_string_ends_with(const char *str, const char *cmp)
+bool laniakea_string_ends_with(const char *str, const char *cmp)
 {
     size_t cmp_len = strlen(cmp);
     size_t str_i = strlen(str) - 1;
     size_t cmp_i = strlen(cmp) - 1;
     while (cmp_i > cmp_len) {
         if (cmp[cmp_i] != str[str_i]) {
-            return LANIAKEA_FALSE;
+            return false;
         }
         --str_i;
         --cmp_i;
     }
 
-    return LANIAKEA_TRUE;
+    return true;
 }
 
 ssize_t laniakea_string_find(const char *str, const char *pattern)
@@ -167,12 +167,12 @@ void laniakea_string_strip_suffix(char *str, const char *suffix)
     }
 }
 
-laniakea_bool laniakea_string_eq(const char *str, const char *other)
+bool laniakea_string_eq(const char *str, const char *other)
 {
     if (strcmp(str, other) == 0) {
-        return LANIAKEA_TRUE;
+        return true;
     }
-    return LANIAKEA_FALSE;
+    return false;
 }
 
-LANIAKEA_EXTERN_C_END
+LA_EXTERN_C_END

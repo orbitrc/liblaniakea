@@ -5,7 +5,7 @@
 #include <laniakea/base.h>
 #include <laniakea/string.h>
 
-LANIAKEA_EXTERN_C_BEGIN
+LA_EXTERN_C_BEGIN
 
 
 /*==================================*/
@@ -57,23 +57,23 @@ laniakea_string_map* laniakea_string_map_new()
     // Initialize map.
     map = malloc(sizeof(laniakea_string_map));
     map->length = 0;
-    map->capacity = LANIAKEA_MAP_CAPACITY_MULTIPLE;
+    map->capacity = LA_MAP_CAPACITY_MULTIPLE;
     map->pairs = malloc(sizeof(laniakea_string_map_pair*)
-        * LANIAKEA_MAP_CAPACITY_MULTIPLE);
+        * LA_MAP_CAPACITY_MULTIPLE);
 
     return map;
 }
 
-laniakea_bool laniakea_string_map_contains(const laniakea_string_map *map,
+bool laniakea_string_map_contains(const laniakea_string_map *map,
         const char *key)
 {
     for (size_t i = 0; i < map->length; ++i) {
         if (laniakea_string_eq(map->pairs[i]->key, key)) {
-            return LANIAKEA_TRUE;
+            return true;
         }
     }
 
-    return LANIAKEA_FALSE;
+    return false;
 }
 
 void laniakea_string_map_insert(laniakea_string_map *map,
@@ -97,7 +97,7 @@ void laniakea_string_map_insert(laniakea_string_map *map,
         laniakea_string_map_pair **new_pairs = malloc(
             sizeof(laniakea_string_map_pair*)
                 *
-            (map->capacity + LANIAKEA_MAP_CAPACITY_MULTIPLE)
+            (map->capacity + LA_MAP_CAPACITY_MULTIPLE)
         );
         // Copy pairs to new memory space.
         for (size_t i = 0; i < map->length; ++i) {
@@ -111,7 +111,7 @@ void laniakea_string_map_insert(laniakea_string_map *map,
         free(map->pairs);
         // Replace old pairs to new pairs.
         map->pairs = new_pairs;
-        map->capacity += LANIAKEA_MAP_CAPACITY_MULTIPLE;
+        map->capacity += LA_MAP_CAPACITY_MULTIPLE;
     }
 }
 
@@ -163,4 +163,4 @@ void laniakea_string_map_free(laniakea_string_map *map)
 }
 
 
-LANIAKEA_EXTERN_C_END
+LA_EXTERN_C_END

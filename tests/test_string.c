@@ -7,12 +7,12 @@
 void test_find()
 {
     const char *str1 = "Hello world!";
-    size_t index1 = laniakea_string_find(str1, "world");
+    ssize_t index1 = laniakea_string_find(str1, "world");
     printf("found index: %ld\n", index1);
     printf("string: %s\n", str1 + index1);
 
     const char *str2 = "Lorem ipsum";
-    size_t index2 = laniakea_string_find(str2, "-");
+    ssize_t index2 = laniakea_string_find(str2, "-");
     assert(index2 == -1);
 }
 
