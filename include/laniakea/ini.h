@@ -18,7 +18,7 @@ LA_EXTERN_C_BEGIN
 
 typedef struct la_ini_section {
     char *name;
-    laniakea_string_map *map;
+    la_string_map *map;
 } la_ini_section;
 
 typedef struct la_ini {
@@ -28,9 +28,9 @@ typedef struct la_ini {
 } la_ini;
 
 
-/*==============================*/
+/*========================*/
 /* la_ini_section methods */
-/*==============================*/
+/*========================*/
 
 /**
  * @brief Create new ini section object.
@@ -55,9 +55,9 @@ const char* la_ini_section_get(const la_ini_section *section,
 void la_ini_section_free(la_ini_section *section);
 
 
-/*======================*/
+/*================*/
 /* la_ini methods */
-/*======================*/
+/*================*/
 
 /**
  * @brief Create new ini object.

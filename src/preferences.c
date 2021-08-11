@@ -13,16 +13,16 @@
 
 LA_EXTERN_C_BEGIN
 
-laniakea_preferences* laniakea_preferences_new()
+la_preferences* la_preferences_new()
 {
-    laniakea_preferences *preferences = malloc(sizeof(laniakea_preferences));
+    la_preferences *preferences = malloc(sizeof(la_preferences));
 
     preferences->conf = NULL;
 
     return preferences;
 }
 
-int laniakea_preferences_load(laniakea_preferences *preferences)
+int la_preferences_load(la_preferences *preferences)
 {
     // Initialize ini.
     if (preferences->conf == NULL) {
@@ -52,7 +52,7 @@ int laniakea_preferences_load(laniakea_preferences *preferences)
     return LA_FILE_ERROR_SUCCESS;
 }
 
-int laniakea_preferences_save(laniakea_preferences *preferences)
+int la_preferences_save(la_preferences *preferences)
 {
     // Make path.
     const char *home = getenv("HOME");
@@ -80,7 +80,7 @@ int laniakea_preferences_save(laniakea_preferences *preferences)
     return LA_FILE_ERROR_SUCCESS;
 }
 
-void laniakea_preferences_free(laniakea_preferences *preferences)
+void la_preferences_free(la_preferences *preferences)
 {
     la_ini_free(preferences->conf);
     free(preferences);
@@ -90,8 +90,8 @@ void laniakea_preferences_free(laniakea_preferences *preferences)
 /* Appearance get/set */
 /*====================*/
 
-bool laniakea_preferences_appearance_dark_mode(
-        laniakea_preferences *preferences)
+bool la_preferences_appearance_dark_mode(
+        la_preferences *preferences)
 {
     int err;
     bool value = la_ini_get_bool(preferences->conf,
@@ -110,36 +110,19 @@ bool laniakea_preferences_appearance_dark_mode(
     return value;
 }
 
-void laniakea_preferences_appearance_set_dark_mode(
-        laniakea_preferences *preferences, bool value)
+void la_preferences_appearance_set_dark_mode(
+        la_preferences *preferences, bool value)
 {
     const char *v = (value == true ? "true" : "false");
     la_ini_insert(preferences->conf, "appearance", "dark_mode", v);
-}
-
-// Deprecated
-bool laniakea_preferences_dark_mode(laniakea_preferences *preferences)
-{
-    fprintf(stderr, "laniakea_preferences_dark_mode() is deprecated. ");
-    fprintf(stderr, "Use laniakea_preferences_appearance_dark_mode().\n");
-    return laniakea_preferences_appearance_dark_mode(preferences);
-}
-
-// Deprecated
-void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
-        bool value)
-{
-    fprintf(stderr, "laniakea_preferences_set_dark_mode() is deprecated. ");
-    fprintf(stderr, "Use laniakea_preferences_appearance_set_dark_mode().\n");
-    return laniakea_preferences_appearance_set_dark_mode(preferences, value);
 }
 
 /*=================*/
 /* Desktop get/set */
 /*=================*/
 
-const char* laniakea_preferences_desktop_wallpaper(
-        laniakea_preferences *preferences)
+const char* la_preferences_desktop_wallpaper(
+        la_preferences *preferences)
 {
     int err;
     const char *wallpaper = la_ini_get_string(preferences->conf,
@@ -153,8 +136,8 @@ const char* laniakea_preferences_desktop_wallpaper(
     return wallpaper;
 }
 
-void laniakea_preferences_desktop_set_wallpaper(
-        laniakea_preferences *preferences, const char *path)
+void la_preferences_desktop_set_wallpaper(
+        la_preferences *preferences, const char *path)
 {
     la_ini_insert(preferences->conf, "desktop", "wallpaper", path);
 }
@@ -163,8 +146,8 @@ void laniakea_preferences_desktop_set_wallpaper(
 /* Keyboard get/set */
 /*==================*/
 
-const char* laniakea_preferences_keyboard_caps_lock_behavior(
-        laniakea_preferences *preferences
+const char* la_preferences_keyboard_caps_lock_behavior(
+        la_preferences *preferences
 )
 {
     int err;
@@ -174,23 +157,23 @@ const char* laniakea_preferences_keyboard_caps_lock_behavior(
     // Set default value.
     if (value == NULL) {
         la_ini_insert(preferences->conf, "keyboard", "caps_lock_behavior",
-            LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK);
+            LA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK);
 
-        return LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK;
+        return LA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK;
     }
 
     return value;
 }
 
-void laniakea_preferences_set_keyboard_caps_lock_behavior(
-        laniakea_preferences *preferences, const char *behavior)
+void la_preferences_set_keyboard_caps_lock_behavior(
+        la_preferences *preferences, const char *behavior)
 {
     la_ini_insert(preferences->conf, "keyboard", "caps_lock_behavior",
         behavior);
 }
 
-uint16_t laniakea_preferences_keyboard_delay_until_repeat(
-        laniakea_preferences *preferences
+uint16_t la_preferences_keyboard_delay_until_repeat(
+        la_preferences *preferences
 )
 {
     int err;
@@ -199,21 +182,20 @@ uint16_t laniakea_preferences_keyboard_delay_until_repeat(
         "keyboard", "delay_until_repeat", &err);
 
     // Set default value.
-    if (err == LA_INI_GET_ERROR_NO_SECTION ||
-            err == LA_INI_GET_ERROR_NO_KEY) {
+    if (err == LA_INI_GET_ERROR_NO_SECTION || err == LA_INI_GET_ERROR_NO_KEY) {
         sprintf(v, "%d",
-            LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT);
+            LA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT);
         la_ini_insert(preferences->conf, "keyboard", "delay_until_repeat",
             v);
 
-        return LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT;
+        return LA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT;
     }
 
     return value;
 }
 
-void laniakea_preferences_set_keyboard_delay_until_repeat(
-        laniakea_preferences *preferences, uint16_t value
+void la_preferences_set_keyboard_delay_until_repeat(
+        la_preferences *preferences, uint16_t value
 )
 {
     char v[7];
@@ -221,9 +203,7 @@ void laniakea_preferences_set_keyboard_delay_until_repeat(
     la_ini_insert(preferences->conf, "keyboard", "delay_until_repeat", v);
 }
 
-uint8_t laniakea_preferences_keyboard_key_repeat(
-        laniakea_preferences *preferences
-)
+uint8_t la_preferences_keyboard_key_repeat(la_preferences *preferences)
 {
     int err;
     char v[4];
@@ -231,19 +211,18 @@ uint8_t laniakea_preferences_keyboard_key_repeat(
         "key_repeat", &err);
 
     // Set default value.
-    if (err == LA_INI_GET_ERROR_NO_SECTION ||
-            err == LA_INI_GET_ERROR_NO_KEY) {
-        sprintf(v, "%d", LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT);
+    if (err == LA_INI_GET_ERROR_NO_SECTION || err == LA_INI_GET_ERROR_NO_KEY) {
+        sprintf(v, "%d", LA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT);
         la_ini_insert(preferences->conf, "keyboard", "key_repeat", v);
 
-        return LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT;
+        return LA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT;
     }
 
     return value;
 }
 
-void laniakea_preferences_set_keyboard_key_repeat(
-        laniakea_preferences *preferences, uint8_t value
+void la_preferences_set_keyboard_key_repeat(
+        la_preferences *preferences, uint8_t value
 )
 {
     char v[4];

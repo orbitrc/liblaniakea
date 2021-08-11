@@ -7,7 +7,7 @@
 
 LA_EXTERN_C_BEGIN
 
-void laniakea_string_trim(char *str)
+void la_string_trim(char *str)
 {
     char *start = str;
     char *end = str;
@@ -31,7 +31,7 @@ void laniakea_string_trim(char *str)
     *end = '\0';
 }
 
-bool laniakea_string_starts_with(const char *str, const char *cmp)
+bool la_string_starts_with(const char *str, const char *cmp)
 {
     size_t cmp_len = strlen(cmp);
     for (size_t i = 0; i < cmp_len; ++i) {
@@ -43,7 +43,7 @@ bool laniakea_string_starts_with(const char *str, const char *cmp)
     return true;
 }
 
-bool laniakea_string_ends_with(const char *str, const char *cmp)
+bool la_string_ends_with(const char *str, const char *cmp)
 {
     size_t cmp_len = strlen(cmp);
     size_t str_i = strlen(str) - 1;
@@ -59,7 +59,7 @@ bool laniakea_string_ends_with(const char *str, const char *cmp)
     return true;
 }
 
-ssize_t laniakea_string_find(const char *str, const char *pattern)
+ssize_t la_string_find(const char *str, const char *pattern)
 {
     size_t pat_len = strlen(pattern);
     const char *iter = str;
@@ -76,49 +76,49 @@ ssize_t laniakea_string_find(const char *str, const char *pattern)
     return iter - str;
 }
 
-laniakea_string_vec* laniakea_string_split(const char *str, const char *delim)
+la_string_vec* la_string_split(const char *str, const char *delim)
 {
-    laniakea_string_vec *split = laniakea_string_vec_new();
+    la_string_vec *split = la_string_vec_new();
 
     // If delimiter is larger than str, do not iterate.
     if (strlen(str) < strlen(delim)) {
-        laniakea_string_vec_push(split, str);
+        la_string_vec_push(split, str);
         return split;
     }
 
     const char *start = str;
     size_t delim_len = strlen(delim);
 
-    ssize_t found = laniakea_string_find(start, delim);
+    ssize_t found = la_string_find(start, delim);
     while (found != -1) {
         if (found == 0) {
-            laniakea_string_vec_push(split, "");
+            la_string_vec_push(split, "");
             start += delim_len;
         } else if (found > 0) {
             size_t len = found;
             char *buf = malloc(len + 1);
             strncpy(buf, start, len);
             buf[len] = '\0';
-            laniakea_string_vec_push(split, buf);
+            la_string_vec_push(split, buf);
             free(buf);
             start += len + delim_len;
         }
-        found = laniakea_string_find(start, delim);
+        found = la_string_find(start, delim);
     }
     // Remains.
-    laniakea_string_vec_push(split, start);
+    la_string_vec_push(split, start);
 
     return split;
 }
 
-laniakea_string_vec* laniakea_string_splitn(const char *str,
+la_string_vec* la_string_splitn(const char *str,
         size_t n, const char *delim)
 {
-    laniakea_string_vec *split = laniakea_string_vec_new();
+    la_string_vec *split = la_string_vec_new();
 
     // If delimiter is larger than str, do not iterate.
     if (strlen(str) < strlen(delim)) {
-        laniakea_string_vec_push(split, str);
+        la_string_vec_push(split, str);
         return split;
     }
 
@@ -126,10 +126,10 @@ laniakea_string_vec* laniakea_string_splitn(const char *str,
     size_t delim_len = strlen(delim);
     size_t pushed = 0;
 
-    ssize_t found = laniakea_string_find(start, delim);
+    ssize_t found = la_string_find(start, delim);
     while (found != -1 && pushed < n - 1) {
         if (found == 0) {
-            laniakea_string_vec_push(split, "");
+            la_string_vec_push(split, "");
             ++pushed;
             start += delim_len;
         } else if (found > 0) {
@@ -137,37 +137,37 @@ laniakea_string_vec* laniakea_string_splitn(const char *str,
             char *buf = malloc(len + 1);
             strncpy(buf, start, len);
             buf[len] = '\0';
-            laniakea_string_vec_push(split, buf);
+            la_string_vec_push(split, buf);
             ++pushed;
             free(buf);
             start += len + delim_len;
         }
-        found = laniakea_string_find(start, delim);
+        found = la_string_find(start, delim);
     }
     // Remains.
-    laniakea_string_vec_push(split, start);
+    la_string_vec_push(split, start);
 
     return split;
 }
 
-void laniakea_string_strip_prefix(char *str, const char *prefix)
+void la_string_strip_prefix(char *str, const char *prefix)
 {
-    if (laniakea_string_starts_with(str, prefix)) {
+    if (la_string_starts_with(str, prefix)) {
         size_t len = strlen(str) - strlen(prefix);
         strncpy(str, str + strlen(prefix), len);
         str[len] = '\0';
     }
 }
 
-void laniakea_string_strip_suffix(char *str, const char *suffix)
+void la_string_strip_suffix(char *str, const char *suffix)
 {
-    if (laniakea_string_ends_with(str, suffix)) {
+    if (la_string_ends_with(str, suffix)) {
         size_t len = strlen(str) - strlen(suffix);
         str[len] = '\0';
     }
 }
 
-bool laniakea_string_eq(const char *str, const char *other)
+bool la_string_eq(const char *str, const char *other)
 {
     if (strcmp(str, other) == 0) {
         return true;

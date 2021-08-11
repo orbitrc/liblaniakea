@@ -21,7 +21,7 @@ la_ini_section* la_ini_section_new(const char *name)
 
     section->name = malloc(strlen(name) + 1);
     strcpy(section->name, name);
-    section->map = laniakea_string_map_new();
+    section->map = la_string_map_new();
 
     return section;
 }
@@ -29,26 +29,26 @@ la_ini_section* la_ini_section_new(const char *name)
 void la_ini_section_insert(la_ini_section *section,
         const char *key, const char *value)
 {
-    laniakea_string_map_insert(section->map, key, value);
+    la_string_map_insert(section->map, key, value);
 }
 
 const char* la_ini_section_get(const la_ini_section *section,
         const char *key)
 {
-    return laniakea_string_map_get(section->map, key);
+    return la_string_map_get(section->map, key);
 }
 
 void la_ini_section_free(la_ini_section *section)
 {
     free(section->name);
-    laniakea_string_map_free(section->map);
+    la_string_map_free(section->map);
 
     free(section);
 }
 
-/*======================*/
-/* laniakea_ini methods */
-/*======================*/
+/*================*/
+/* la_ini methods */
+/*================*/
 
 la_ini* la_ini_new()
 {
@@ -68,7 +68,7 @@ void la_ini_insert(la_ini *ini, const char *section,
     // Find section by name.
     la_ini_section *ini_section = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
-        if (laniakea_string_eq(section, ini->sections[i]->name)) {
+        if (la_string_eq(section, ini->sections[i]->name)) {
             ini_section = ini->sections[i];
             break;
         }
@@ -108,7 +108,7 @@ const char* la_ini_get_string(const la_ini *ini,
 {
     const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
-        if (laniakea_string_eq(ini->sections[i]->name, section)) {
+        if (la_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
             break;
         }
@@ -138,7 +138,7 @@ int32_t la_ini_get_i32(const la_ini *ini, const char *section,
 {
     const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
-        if (laniakea_string_eq(ini->sections[i]->name, section)) {
+        if (la_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
             break;
         }
@@ -185,7 +185,7 @@ uint32_t la_ini_get_u32(const la_ini *ini, const char *section,
 {
     const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
-        if (laniakea_string_eq(ini->sections[i]->name, section)) {
+        if (la_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
             break;
         }
@@ -233,7 +233,7 @@ bool la_ini_get_bool(const la_ini *ini,
 {
     const la_ini_section *sec = NULL;
     for (size_t i = 0; i < ini->length; ++i) {
-        if (laniakea_string_eq(ini->sections[i]->name, section)) {
+        if (la_string_eq(ini->sections[i]->name, section)) {
             sec = ini->sections[i];
             break;
         }
@@ -255,13 +255,13 @@ bool la_ini_get_bool(const la_ini *ini,
         return 0;
     }
 
-    if (laniakea_string_eq(val, "true")) {
+    if (la_string_eq(val, "true")) {
         if (e != NULL) {
             *e = LA_INI_GET_ERROR_SUCCESS;
         }
         return true;
     }
-    if (laniakea_string_eq(val, "false")) {
+    if (la_string_eq(val, "false")) {
         if (e != NULL) {
             *e = LA_INI_GET_ERROR_SUCCESS;
         }
@@ -297,30 +297,30 @@ int la_ini_load(la_ini *ini, const char *path)
     while (read_n != -1) {
         read_n = getline(&line, &buf_n, f);
         if (read_n != -1) {
-            laniakea_string_trim(line);
-            if (laniakea_string_starts_with(line, "[")) {
+            la_string_trim(line);
+            if (la_string_starts_with(line, "[")) {
                 if (section != NULL) {
                     free(section);
                 }
                 section = malloc(strlen(line));
                 strcpy(section, line);
                 // Strip [, ].
-                laniakea_string_strip_prefix(section, "[");
-                laniakea_string_strip_suffix(section, "]");
-            } else if (laniakea_string_eq(line, "")) {
+                la_string_strip_prefix(section, "[");
+                la_string_strip_suffix(section, "]");
+            } else if (la_string_eq(line, "")) {
                 continue;
             } else {
-                laniakea_string_vec *kv;
-                kv = laniakea_string_splitn(line, 2, "=");
+                la_string_vec *kv;
+                kv = la_string_splitn(line, 2, "=");
                 printf(" - section: %s\n", section);
                 printf("key: %s, value: %s\n",
-                    laniakea_string_vec_get(kv, 0),
-                    laniakea_string_vec_get(kv, 1)
+                    la_string_vec_get(kv, 0),
+                    la_string_vec_get(kv, 1)
                 );
                 la_ini_insert(ini, section,
-                    laniakea_string_vec_get(kv, 0),
-                    laniakea_string_vec_get(kv, 1));
-                laniakea_string_vec_free(kv);
+                    la_string_vec_get(kv, 0),
+                    la_string_vec_get(kv, 1));
+                la_string_vec_free(kv);
             }
         }
     }

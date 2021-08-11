@@ -4,18 +4,18 @@
 
 LA_EXTERN_C_BEGIN
 
-laniakea_string_vec* laniakea_string_vec_new()
+la_string_vec* la_string_vec_new()
 {
-    laniakea_string_vec *vec = malloc(sizeof(laniakea_string_vec));
+    la_string_vec *vec = malloc(sizeof(la_string_vec));
 
     vec->length = 0;
-    vec->capacity = LANIAKEA_VEC_CAPACITY_MULTIPLE;
+    vec->capacity = LA_VEC_CAPACITY_MULTIPLE;
     vec->strings = malloc(sizeof(char*) * vec->capacity);
 
     return vec;
 }
 
-void laniakea_string_vec_push(laniakea_string_vec *vec, const char *str)
+void la_string_vec_push(la_string_vec *vec, const char *str)
 {
     vec->strings[vec->length] = malloc(sizeof(char) * strlen(str) + 1);
     strcpy(vec->strings[vec->length], str);
@@ -25,7 +25,7 @@ void laniakea_string_vec_push(laniakea_string_vec *vec, const char *str)
         char **new_strings = malloc(
             sizeof(char*)
                 *
-            (vec->capacity + LANIAKEA_VEC_CAPACITY_MULTIPLE)
+            (vec->capacity + LA_VEC_CAPACITY_MULTIPLE)
         );
 
         for (size_t i = 0; i < vec->length; ++i) {
@@ -36,16 +36,16 @@ void laniakea_string_vec_push(laniakea_string_vec *vec, const char *str)
         free(vec->strings);
         vec->strings = new_strings;
 
-        vec->capacity += LANIAKEA_VEC_CAPACITY_MULTIPLE;
+        vec->capacity += LA_VEC_CAPACITY_MULTIPLE;
     }
 }
 
-const char* laniakea_string_vec_get(laniakea_string_vec *vec, size_t index)
+const char* la_string_vec_get(la_string_vec *vec, size_t index)
 {
     return vec->strings[index];
 }
 
-void laniakea_string_vec_free(laniakea_string_vec *vec)
+void la_string_vec_free(la_string_vec *vec)
 {
     for (size_t i = 0; i < vec->length; ++i) {
         free(vec->strings[i]);

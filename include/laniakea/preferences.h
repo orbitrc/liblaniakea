@@ -10,26 +10,19 @@
 #define LA_PREFERENCES_LANIAKEA_CONFIG_PATH ".config/laniakea.conf"
 
 #define LA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK "CapsLock"
-#define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CAPS_LOCK "CapsLock"
 #define LA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CTRL "Ctrl"
-#define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHAVIOR_CTRL "Ctrl"
 #define LA_PREFERENCES_CAPS_LOCK_BEHIVIOR_ESC "Esc"
-#define LANIAKEA_PREFERENCES_CAPS_LOCK_BEHIVIOR_ESC "Esc"
 
 #define LA_PREFERENCES_DEFAULT_DESKTOP_NUMBER_OF_DESKTOPS 4
-#define LANIAKEA_PREFERENCES_DEFAULT_DESKTOP_NUMBER_OF_DESKTOPS 4
 #define LA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT 600
-#define LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_DELAY_UNTIL_REPEAT 600
 #define LA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT 25
-#define LANIAKEA_PREFERENCES_DEFAULT_KEYBOARD_KEY_REPEAT 25
 #define LA_PREFERENCES_DEFAULT_POWER_SHOW_BATTERY_IN_MENU_BAR true
-#define LANIAKEA_PREFERENCES_DEFAULT_POWER_SHOW_BATTERY_IN_MENU_BAR LANIAKEA_TRUE
 
 LA_EXTERN_C_BEGIN
 
 typedef struct la_ini la_ini;
 
-typedef struct laniakea_preferences {
+typedef struct la_preferences {
     // - Appearance
     // bool dark_mode;
     // - Display.
@@ -43,57 +36,52 @@ typedef struct laniakea_preferences {
     // int16_t delay_until_repeat; // 0-10,000
     // uint8_t key_repeat;         // 0-255
     la_ini *conf;
-} laniakea_preferences;
+} la_preferences;
 
 
 /**
- * @brief Create new laniakea_preferences object.
+ * @brief Create new la_preferences object.
  *
- * @return Newly allocated laniakea_preferences object.
+ * @return Newly allocated la_preferences object.
  */
-laniakea_preferences* laniakea_preferences_new();
+la_preferences* la_preferences_new();
 
 
 /**
  * @brief Load config file from disk.
  * 
- * @param preferences The laniakea_preferences object.
+ * @param preferences The la_preferences object.
  * @return Error code.
  */
-int laniakea_preferences_load(laniakea_preferences *preferences);
+int la_preferences_load(la_preferences *preferences);
 
 
 /**
  * @brief Save config file to disk.
  *
- * @param preferences The laniakea_preferences object.
+ * @param preferences The la_preferences object.
  * @return Error code.
  */
-int laniakea_preferences_save(laniakea_preferences *preferences);
+int la_preferences_save(la_preferences *preferences);
 
 
 /**
  * @brief Free preferences from memory.
  *
- * @param preferences The laniakea_preferences object.
+ * @param preferences The la_preferences object.
  */
-void laniakea_preferences_free(laniakea_preferences *preferences);
+void la_preferences_free(la_preferences *preferences);
 
 
 /*====================*/
 /* Appearance get/set */
 /*====================*/
 
-bool laniakea_preferences_dark_mode(laniakea_preferences *preferences);
+bool la_preferences_appearance_dark_mode(
+        la_preferences *preferences);
 
-void laniakea_preferences_set_dark_mode(laniakea_preferences *preferences,
-        bool value);
-
-bool laniakea_preferences_appearance_dark_mode(
-        laniakea_preferences *preferences);
-
-void laniakea_preferences_appearance_set_dark_mode(
-        laniakea_preferences *preferences, bool value);
+void la_preferences_appearance_set_dark_mode(
+        la_preferences *preferences, bool value);
 
 /*=================*/
 /* Display get/set */
@@ -104,38 +92,38 @@ void laniakea_preferences_appearance_set_dark_mode(
 /* Desktop get/set */
 /*=================*/
 
-const char* laniakea_preferences_desktop_wallpaper(
-        laniakea_preferences *preferences);
+const char* la_preferences_desktop_wallpaper(
+        la_preferences *preferences);
 
-void laniakea_preferences_desktop_set_wallpaper(
-        laniakea_preferences *preferences, const char *path);
+void la_preferences_desktop_set_wallpaper(
+        la_preferences *preferences, const char *path);
 
 
 /*==================*/
 /* Keyboard get/set */
 /*==================*/
 
-const char* laniakea_preferences_keyboard_caps_lock_behavior(
-        laniakea_preferences *preferences);
+const char* la_preferences_keyboard_caps_lock_behavior(
+        la_preferences *preferences);
 
-void laniakea_preferences_set_keyboard_caps_lock_behavior(
-        laniakea_preferences *preferences, const char *behavior);
-
-
-uint16_t laniakea_preferences_keyboard_delay_until_repeat(
-        laniakea_preferences *preferences);
+void la_preferences_set_keyboard_caps_lock_behavior(
+        la_preferences *preferences, const char *behavior);
 
 
-void laniakea_preferences_set_keyboard_delay_until_repeat(
-        laniakea_preferences *preferences, uint16_t value
+uint16_t la_preferences_keyboard_delay_until_repeat(
+        la_preferences *preferences);
+
+
+void la_preferences_set_keyboard_delay_until_repeat(
+        la_preferences *preferences, uint16_t value
 );
 
-uint8_t laniakea_preferences_keyboard_key_repeat(
-        laniakea_preferences *preferences
+uint8_t la_preferences_keyboard_key_repeat(
+        la_preferences *preferences
 );
 
-void laniakea_preferences_set_keyboard_key_repeat(
-        laniakea_preferences *preferences, uint8_t value
+void la_preferences_set_keyboard_key_repeat(
+        la_preferences *preferences, uint8_t value
 );
 
 

@@ -9,21 +9,21 @@
 
 LA_EXTERN_C_BEGIN
 
-typedef struct laniakea_string_map_pair {
+typedef struct la_string_map_pair {
     char *key;
     char *value;
-} laniakea_string_map_pair;
+} la_string_map_pair;
 
-typedef struct laniakea_string_map {
+typedef struct la_string_map {
     size_t length;
     size_t capacity;
-    laniakea_string_map_pair **pairs;
-} laniakea_string_map;
+    la_string_map_pair **pairs;
+} la_string_map;
 
 
-/*==================================*/
-/* laniakea_string_map_pair methods */
-/*==================================*/
+/*============================*/
+/* la_string_map_pair methods */
+/*============================*/
 
 /**
  * @brief Create new string map pair with given key and value.
@@ -32,7 +32,7 @@ typedef struct laniakea_string_map {
  * @param value The value.
  * @return Newly created key/value pair.
  */
-laniakea_string_map_pair* laniakea_string_map_pair_new(const char *key,
+la_string_map_pair* la_string_map_pair_new(const char *key,
         const char *value);
 
 /**
@@ -40,26 +40,26 @@ laniakea_string_map_pair* laniakea_string_map_pair_new(const char *key,
  *
  * @param pair The pair that will be deleted.
  */
-void laniakea_string_map_pair_free(laniakea_string_map_pair *pair);
+void la_string_map_pair_free(la_string_map_pair *pair);
 
 
-/*=============================*/
-/* laniakea_string_map methods */
-/*=============================*/
+/*=======================*/
+/* la_string_map methods */
+/*=======================*/
 
 /**
  * @brief Create new string map.
  *
  * @return Newly created empty string map.
  */
-laniakea_string_map* laniakea_string_map_new();
+la_string_map* la_string_map_new();
 
 /**
  * @brief Check if key is in the map.
  *
  * @return Boolean.
  */
-bool laniakea_string_map_contains(const laniakea_string_map *map,
+bool la_string_map_contains(const la_string_map *map,
         const char *key);
 
 /**
@@ -74,7 +74,7 @@ bool laniakea_string_map_contains(const laniakea_string_map *map,
  * @param key The key.
  * @param value The value.
  */
-void laniakea_string_map_insert(laniakea_string_map *map,
+void la_string_map_insert(la_string_map *map,
         const char *key, const char *value);
 
 /**
@@ -86,19 +86,19 @@ void laniakea_string_map_insert(laniakea_string_map *map,
  * @return A reference of value about key. If no value for key found, returns
  *         NULL.
  */
-const char* laniakea_string_map_get(laniakea_string_map *map, const char *key);
+const char* la_string_map_get(la_string_map *map, const char *key);
 
 /**
  * @brief Remove the key from the map.
  */
-void laniakea_string_map_remove(laniakea_string_map *map, const char *key);
+void la_string_map_remove(la_string_map *map, const char *key);
 
 /**
  * @brief Free the string map.
  *
  * @param map The string map.
  */
-void laniakea_string_map_free(laniakea_string_map *map);
+void la_string_map_free(la_string_map *map);
 
 LA_EXTERN_C_END
 

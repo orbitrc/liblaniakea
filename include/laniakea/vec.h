@@ -5,24 +5,24 @@
 
 #include <laniakea/base.h>
 
-#define LANIAKEA_VEC_CAPACITY_MULTIPLE 4
+#define LA_VEC_CAPACITY_MULTIPLE 4
 
 LA_EXTERN_C_BEGIN
 
-typedef struct laniakea_string_vec {
+typedef struct la_string_vec {
     size_t length;
     size_t capacity;
     char **strings;
-} laniakea_string_vec;
+} la_string_vec;
 
-/*=============================*/
-/* laniakea_string_vec methods */
-/*=============================*/
+/*=======================*/
+/* la_string_vec methods */
+/*=======================*/
 
-laniakea_string_vec* laniakea_string_vec_new();
-void laniakea_string_vec_push(laniakea_string_vec *vec, const char *str);
-const char* laniakea_string_vec_get(laniakea_string_vec *vec, size_t index);
-void laniakea_string_vec_free(laniakea_string_vec *vec);
+la_string_vec* la_string_vec_new();
+void la_string_vec_push(la_string_vec *vec, const char *str);
+const char* la_string_vec_get(la_string_vec *vec, size_t index);
+void la_string_vec_free(la_string_vec *vec);
 
 LA_EXTERN_C_END
 
