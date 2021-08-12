@@ -98,6 +98,10 @@ const char* la_preferences_desktop_wallpaper(
 void la_preferences_desktop_set_wallpaper(
         la_preferences *preferences, const char *path);
 
+size_t la_preferences_desktop_number_of_desktops(la_preferences *preferences);
+
+void la_preferences_desktop_set_number_of_desktops(
+        la_preferences *preferences, size_t value);
 
 /*==================*/
 /* Keyboard get/set */

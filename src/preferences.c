@@ -142,6 +142,28 @@ void la_preferences_desktop_set_wallpaper(
     la_ini_insert(preferences->conf, "desktop", "wallpaper", path);
 }
 
+size_t la_preferences_desktop_number_of_desktops(la_preferences *preferences)
+{
+    int err;
+    uint32_t value = la_ini_get_u32(preferences->conf,
+        "desktop", "number_of_desktops", &err);
+
+    if (err == LA_INI_GET_ERROR_NO_SECTION ||
+            err == LA_INI_GET_ERROR_NO_KEY) {
+        return LA_PREFERENCES_DEFAULT_DESKTOP_NUMBER_OF_DESKTOPS;
+    }
+
+    return (size_t)value;
+}
+
+void la_preferences_desktop_set_number_of_desktops(la_preferences *preferences,
+        size_t value)
+{
+    char v[7];
+    sprintf(v, "%lu", value);
+    la_ini_insert(preferences->conf, "desktop", "number_of_desktops", v);
+}
+
 /*==================*/
 /* Keyboard get/set */
 /*==================*/
